@@ -43,6 +43,8 @@ function initFlowSection() {
     let isZoomed = false;
     let activeStage = null;
     let demoTimer = null;
+    let transitionLock = false;
+    let lastClickedNode = null;
 
     // Stage Data
     const stages = [
@@ -51,8 +53,17 @@ function initFlowSection() {
             name: 'GET FOUND',
             product: 'Referral Engine',
             icon: 'users',
-            problem: 'Word-of-mouth is your best lead source, but you never ask for referrals consistently. Happy customers forget to tell their friends.',
-            solution: 'Automated SMS referral requests sent after every completed job. Customers share with one tap. You get notified instantly.',
+            problem: `Happy customers forget to tell their friends—and you don't have a consistent referral ask.<ul class="logic-list">
+                <li><span class="logic-key">Current state:</span> Referrals happen randomly (no trigger, no tracking).</li>
+                <li><span class="logic-key">Leak:</span> Customer goodwill expires after the job.</li>
+                <li><span class="logic-key">Result:</span> You keep paying for leads you could've earned for free.</li>
+            </ul>`,
+            solution: `Automated referral flow that runs after every job—with tracking + payout built in.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Job marked complete → wait 7 days.</li>
+                <li><span class="logic-key">Action:</span> Send referral ask + one‑tap share link.</li>
+                <li><span class="logic-key">If booked:</span> Credit $50 → notify owner → payout logged automatically.</li>
+                <li><span class="logic-key">Stop condition:</span> Referral closes or expires.</li>
+            </ul>`,
             tags: ['Referral Engine', 'Marketing Automation']
         },
         {
@@ -60,8 +71,17 @@ function initFlowSection() {
             name: 'ANSWER FAST',
             product: 'AI Receptionist',
             icon: 'phone',
-            problem: "You're on a roof when the phone rings. By the time you call back, they've hired someone else. 78% of customers hire whoever responds first.",
-            solution: 'AI answers every call in 2 rings, 24/7. Qualifies the lead, books the appointment, sends confirmation—all automatically.',
+            problem: `When you miss a call, you usually lose the job—especially emergencies.<ul class="logic-list">
+                <li><span class="logic-key">After-hours:</span> High‑margin calls hit voicemail.</li>
+                <li><span class="logic-key">Delay:</span> Lead books whoever answers first.</li>
+                <li><span class="logic-key">Chaos:</span> No qualification → junk calls waste time.</li>
+            </ul>`,
+            solution: `AI answers every call, qualifies, and books—with clean handoff + logging.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Inbound call rings.</li>
+                <li><span class="logic-key">Qualify:</span> Job type + urgency + service area + budget fit.</li>
+                <li><span class="logic-key">Route:</span> Emergency → priority booking; otherwise offer next slots.</li>
+                <li><span class="logic-key">Write-back:</span> Outcome → CRM + calendar + SMS confirmation.</li>
+            </ul>`,
             tags: ['AI Receptionist', 'Speed-to-Lead']
         },
         {
@@ -69,8 +89,17 @@ function initFlowSection() {
             name: 'BOOK & REMIND',
             product: 'Smart Scheduling',
             icon: 'calendar',
-            problem: 'Customers book, then forget. No-shows cost you $200+ per missed appointment. Reminder calls eat your admin time.',
-            solution: 'Online booking synced to your calendar. Automatic reminders at 24h, 2h, and "on the way." No-shows drop by 60%.',
+            problem: `Scheduling drift + no-shows burn hours and fuel.<ul class="logic-list">
+                <li><span class="logic-key">Mismatch:</span> "I thought you said Tuesday."</li>
+                <li><span class="logic-key">No-shows:</span> Tech arrives, nobody's home.</li>
+                <li><span class="logic-key">Manual:</span> Office spends time chasing confirmations.</li>
+            </ul>`,
+            solution: `Self-booking + reminders + reschedule flow that prevents wasted trips.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Booking created (web/phone).</li>
+                <li><span class="logic-key">Reminders:</span> 24h + 2h + "On my way".</li>
+                <li><span class="logic-key">Reschedule:</span> Customer texts <b>RESCHEDULE</b> → selects new slot automatically.</li>
+                <li><span class="logic-key">Fallback:</span> No confirmation → AI calls to confirm.</li>
+            </ul>`,
             tags: ['Online Booking', 'Auto-Reminders']
         },
         {
@@ -78,8 +107,17 @@ function initFlowSection() {
             name: 'QUOTE & CLOSE',
             product: 'Quote Follow-Up',
             icon: 'file-text',
-            problem: 'You send quotes that go silent. Following up feels pushy. 40% of quotes die from no response—not rejection.',
-            solution: 'Automated follow-up sequence: Day 2, Day 5, Day 10. Polite, persistent, and stops the moment they reply.',
+            problem: `Quotes die in silence because follow-up is inconsistent.<ul class="logic-list">
+                <li><span class="logic-key">Reality:</span> Most contractors stop after 1–2 touches.</li>
+                <li><span class="logic-key">No system:</span> Leads fall through the cracks.</li>
+                <li><span class="logic-key">Outcome:</span> Competitor wins by default.</li>
+            </ul>`,
+            solution: `A polite, persistent follow-up sequence that stops instantly on reply.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Quote status = Sent.</li>
+                <li><span class="logic-key">Sequence:</span> Day 2 → Day 5 → Day 10 (+ optional 8-touch).</li>
+                <li><span class="logic-key">Stop condition:</span> Reply "yes/no" or booked call.</li>
+                <li><span class="logic-key">Escalation:</span> High-value quote idle → notify owner to call.</li>
+            </ul>`,
             tags: ['Quote Follow-Up', 'CRM Integration']
         },
         {
@@ -87,8 +125,17 @@ function initFlowSection() {
             name: 'DELIVER & COLLECT',
             product: 'Payment System',
             icon: 'credit-card',
-            problem: 'Chasing payments is awkward and time-consuming. Invoices get "lost." Average collection time: 30+ days.',
-            solution: 'Job complete → payment link sent automatically. One-tap pay with Apple/Google Pay. Average collection: same day.',
+            problem: `Payment delays kill cash flow and create awkward chasing.<ul class="logic-list">
+                <li><span class="logic-key">Leak:</span> Invoice sent late (or forgotten).</li>
+                <li><span class="logic-key">Friction:</span> No easy pay option on the spot.</li>
+                <li><span class="logic-key">Delay:</span> "Net 30" becomes "net never".</li>
+            </ul>`,
+            solution: `Job complete → invoice + tap-to-pay → reminders until paid.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Job marked complete.</li>
+                <li><span class="logic-key">Action:</span> Generate invoice + send Stripe pay link (Apple/Google Pay).</li>
+                <li><span class="logic-key">If unpaid:</span> Reminder cadence (Day 2 / Day 5 / Day 10).</li>
+                <li><span class="logic-key">Optional:</span> Financing for big tickets.</li>
+            </ul>`,
             tags: ['On-My-Way Texts', 'Payment Links']
         },
         {
@@ -96,8 +143,16 @@ function initFlowSection() {
             name: 'GROW & REPEAT',
             product: 'Review Booster',
             icon: 'star',
-            problem: 'Happy customers rarely leave reviews unprompted. One bad review tanks your rating. New customers check Google first.',
-            solution: 'Rating request sent 1 hour after job. 5-star? Direct link to Google. Less than 5? Private feedback form.',
+            problem: `Reviews don't happen unless you ask—and 1-star hits hard.<ul class="logic-list">
+                <li><span class="logic-key">Bias:</span> Upset customers review; happy ones forget.</li>
+                <li><span class="logic-key">Trust:</span> New customers choose whoever looks safest.</li>
+            </ul>`,
+            solution: `Private rating first, then route customers the right way.<ul class="logic-list">
+                <li><span class="logic-key">Trigger:</span> Job complete + 1–2 hours.</li>
+                <li><span class="logic-key">If 4–5★:</span> One-tap Google link.</li>
+                <li><span class="logic-key">If 1–3★:</span> Private feedback → alert owner to recover.</li>
+                <li><span class="logic-key">Tracking:</span> Log requests + outcomes.</li>
+            </ul>`,
             tags: ['Review Requests', 'Retention Campaigns']
         }
     ];
@@ -111,13 +166,15 @@ function initFlowSection() {
 
     // Open Stage
     function openStage(stageId) {
-        if (isZoomed) return;
+        if (isZoomed || transitionLock) return;
         
         const stage = stages.find(s => s.id === stageId);
         if (!stage) return;
 
+        transitionLock = true;
         isZoomed = true;
         activeStage = stageId;
+        lastClickedNode = document.querySelector(`.flow-node[data-stage="${stageId}"]`);
 
         updateContent(stage);
         updatePicker(stageId);
@@ -125,54 +182,93 @@ function initFlowSection() {
 
         flowSection.classList.add('zoomed');
         document.body.style.overflow = 'hidden';
+
+        // Focus management
+        const backBtn = flowDetail.querySelector('.detail-back');
+        if (backBtn) {
+            setTimeout(() => backBtn.focus(), 100);
+        }
+
+        // Release lock after transition
+        setTimeout(() => {
+            transitionLock = false;
+        }, 400);
     }
 
     // Close Stage
     function closeStage() {
-        if (!isZoomed) return;
+        if (!isZoomed || transitionLock) return;
 
+        transitionLock = true;
         stopDemo();
         flowSection.classList.remove('zoomed');
         document.body.style.overflow = '';
 
+        // Restore focus to originating node
+        if (lastClickedNode) {
+            setTimeout(() => {
+                lastClickedNode.focus();
+                lastClickedNode = null;
+            }, 100);
+        }
+
         setTimeout(() => {
             isZoomed = false;
             activeStage = null;
-        }, 350);
+            transitionLock = false;
+        }, 400);
     }
 
     // Navigate to Stage
     function goToStage(stageId) {
-        if (!isZoomed || stageId === activeStage || stageId < 1 || stageId > 6) return;
+        if (!isZoomed || stageId === activeStage || stageId < 1 || stageId > 6 || transitionLock) return;
 
         const stage = stages.find(s => s.id === stageId);
         if (!stage) return;
 
+        transitionLock = true;
         activeStage = stageId;
         
         // Quick fade transition
         const card = flowDetail.querySelector('.detail-card');
-        card.style.opacity = '0.7';
+        if (card) {
+            card.style.opacity = '0.7';
+        }
         
         setTimeout(() => {
+            stopDemo();
             updateContent(stage);
             updatePicker(stageId);
             playDemo(stageId);
-            card.style.opacity = '1';
-        }, 150);
+            if (card) {
+                card.style.opacity = '1';
+            }
+            transitionLock = false;
+        }, 200);
     }
 
     // Update Content
     function updateContent(stage) {
-        document.getElementById('detail-icon').innerHTML = `<i data-lucide="${stage.icon}"></i>`;
-        document.getElementById('detail-name').textContent = stage.name;
-        document.getElementById('detail-product').textContent = stage.product;
-        document.getElementById('detail-problem').textContent = stage.problem;
-        document.getElementById('detail-solution').textContent = stage.solution;
+        const iconEl = document.getElementById('detail-icon');
+        const nameEl = document.getElementById('detail-name');
+        const productEl = document.getElementById('detail-product');
+        const problemEl = document.getElementById('detail-problem');
+        const solutionEl = document.getElementById('detail-solution');
+        const tagsEl = document.getElementById('detail-tags');
+
+        if (iconEl) iconEl.innerHTML = `<i data-lucide="${stage.icon}"></i>`;
+        if (nameEl) nameEl.textContent = stage.name;
+        if (productEl) productEl.textContent = stage.product;
         
-        document.getElementById('detail-tags').innerHTML = stage.tags
-            .map(t => `<span class="tag">${t}</span>`)
-            .join('');
+        // Use innerHTML for problem/solution to allow structured markup
+        if (problemEl) problemEl.innerHTML = stage.problem;
+        if (solutionEl) solutionEl.innerHTML = stage.solution;
+        
+        if (tagsEl) {
+            tagsEl.innerHTML = stage.tags
+                .map(t => `<span class="tag">${t}</span>`)
+                .join('');
+        }
 
         if (currentStageEl) currentStageEl.textContent = stage.id;
 
@@ -207,56 +303,240 @@ function initFlowSection() {
 
     function getDemoHTML(stageId) {
         const demos = {
-            1: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.2s">Thanks for choosing ABC Plumbing! 🔧</div>
-                <div class="msg out" style="animation-delay:1.2s">Know anyone who needs help?</div>
-                <div class="msg out" style="animation-delay:2.2s">Get $50 for every referral 💰</div>
-                <div class="msg in" style="animation-delay:3.5s">My neighbor Mike needs help!</div>
-                <div class="msg out" style="animation-delay:4.5s">Great! We'll reach out today 👍</div>
-                <div class="msg ok" style="animation-delay:5.5s">✓ $50 bonus credited!</div>
-            </div></div>`,
+            1: `
+                <div class="demo demo-referral">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">Referral Engine</div>
+                    <div class="demo-card" style="animation-delay:0.1s">
+                        <div class="demo-row">
+                            <b>Trigger</b>
+                            <span class="pill">Job Complete</span>
+                        </div>
+                        <div class="demo-sub">Wait 7 days → send referral ask</div>
+                    </div>
+                    <div class="demo-chat">
+                        <div class="bubble out" style="animation-delay:0.35s">Thanks again for choosing ABC Plumbing 🔧</div>
+                        <div class="bubble out" style="animation-delay:0.6s">Know anyone who needs help? Get <b>$50</b> per referral.</div>
+                        <div class="bubble in" style="animation-delay:0.95s">My neighbor Mike needs a leak fixed.</div>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:1.25s">
+                        <div class="demo-row">
+                            <b>Status</b>
+                            <span class="pill green">Booked</span>
+                        </div>
+                        <div class="demo-sub">Referral credited → payout queued</div>
+                    </div>
+                </div>
+            `,
             
-            2: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.3s">Thanks for calling! How can I help?</div>
-                <div class="msg in" style="animation-delay:1.5s">My sink is leaking badly</div>
-                <div class="msg out" style="animation-delay:2.8s">I can get someone out Tuesday at 2pm. Book it?</div>
-                <div class="msg in" style="animation-delay:4s">Yes please!</div>
-                <div class="msg out" style="animation-delay:5s">Done! Confirmation on the way 📅</div>
-                <div class="msg ok" style="animation-delay:6.5s">✓ New job booked!</div>
-            </div></div>`,
+            2: `
+                <div class="demo demo-call">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">AI Receptionist</div>
+                    <div class="call-card" style="animation-delay:0.1s">
+                        <div class="call-head">
+                            <div class="avatar"></div>
+                            <div>
+                                <div class="call-name">Incoming Call</div>
+                                <div class="call-muted">"No Heat" • After hours</div>
+                            </div>
+                            <span class="pill blue">Answered</span>
+                        </div>
+                        <div class="wave">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="demo-grid">
+                        <div class="mini" style="animation-delay:0.35s">
+                            <b>Service Area</b>
+                            <span class="pill green">In-range</span>
+                        </div>
+                        <div class="mini" style="animation-delay:0.45s">
+                            <b>Urgency</b>
+                            <span class="pill amber">Emergency</span>
+                        </div>
+                        <div class="mini" style="animation-delay:0.55s">
+                            <b>Booked</b>
+                            <span class="pill green">Tue 2:00</span>
+                        </div>
+                        <div class="mini" style="animation-delay:0.65s">
+                            <b>Logged</b>
+                            <span class="pill">CRM</span>
+                        </div>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:0.9s">
+                        <div class="demo-row">
+                            <b>SMS Sent</b>
+                            <span class="pill green">Confirmed</span>
+                        </div>
+                        <div class="demo-sub">Customer received confirmation + address check</div>
+                    </div>
+                </div>
+            `,
             
-            3: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.3s">Reminder: Appointment tomorrow at 2pm</div>
-                <div class="msg in" style="animation-delay:1.5s">Thanks! I'll be ready</div>
-                <div class="msg out" style="animation-delay:3s">Tech is on the way! ETA 15 min 🚗</div>
-                <div class="msg in" style="animation-delay:4.2s">Perfect, see you soon!</div>
-                <div class="msg ok" style="animation-delay:5.5s">✓ No-shows reduced 60%</div>
-            </div></div>`,
+            3: `
+                <div class="demo demo-schedule">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">Smart Scheduling</div>
+                    <div class="calendar" style="animation-delay:0.1s">
+                        <div class="cal-head">
+                            <b>Tuesday</b>
+                            <span class="pill">2 jobs</span>
+                        </div>
+                        <div class="cal-row">
+                            <span>10:00</span>
+                            <div class="event">Drain cleanout</div>
+                        </div>
+                        <div class="cal-row">
+                            <span>2:00</span>
+                            <div class="event blue">Leak repair (booked)</div>
+                        </div>
+                        <div class="cal-row">
+                            <span>5:00</span>
+                            <div class="event ghost">Buffer</div>
+                        </div>
+                    </div>
+                    <div class="demo-card" style="animation-delay:0.35s">
+                        <div class="demo-row">
+                            <b>Reminder cadence</b>
+                            <span class="pill">24h • 2h • OTW</span>
+                        </div>
+                        <div class="demo-sub">No confirmation → AI call to verify</div>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:0.6s">
+                        <div class="demo-row">
+                            <b>Text command</b>
+                            <span class="pill green">RESCHEDULE</span>
+                        </div>
+                        <div class="demo-sub">Customer selects a new slot automatically</div>
+                    </div>
+                </div>
+            `,
             
-            4: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.3s">Quote sent: Kitchen remodel - $2,400</div>
-                <div class="msg out" style="animation-delay:1.5s">Day 2: Any questions on the quote?</div>
-                <div class="msg out" style="animation-delay:2.5s">Day 5: Still interested?</div>
-                <div class="msg out" style="animation-delay:3.5s">Day 10: Should I close this out?</div>
-                <div class="msg in" style="animation-delay:4.5s">Actually yes, let's do it!</div>
-                <div class="msg ok" style="animation-delay:5.5s">✓ Quote accepted - $2,400</div>
-            </div></div>`,
+            4: `
+                <div class="demo demo-quote">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">Quote Follow-Up</div>
+                    <div class="pipeline" style="animation-delay:0.1s">
+                        <div class="lane">
+                            <b>Sent</b>
+                            <div class="chip">Kitchen remodel • $2,400</div>
+                        </div>
+                        <div class="lane">
+                            <b>Follow-ups</b>
+                            <div class="step">Day 2: Any questions?</div>
+                            <div class="step">Day 5: Still interested?</div>
+                            <div class="step">Day 10: Close out?</div>
+                        </div>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:0.55s">
+                        <div class="demo-row">
+                            <b>Stop condition</b>
+                            <span class="pill green">Reply received</span>
+                        </div>
+                        <div class="demo-sub">Sequence halts instantly → status updated</div>
+                    </div>
+                    <div class="demo-card" style="animation-delay:0.8s">
+                        <div class="demo-row">
+                            <b>Escalation</b>
+                            <span class="pill amber">$2k+</span>
+                        </div>
+                        <div class="demo-sub">Idle 10 days → notify owner to call</div>
+                    </div>
+                </div>
+            `,
             
-            5: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.3s">Job complete! ✓</div>
-                <div class="msg out" style="animation-delay:1.3s">Total: $450</div>
-                <div class="msg out" style="animation-delay:2.3s">Tap here to pay securely 💳</div>
-                <div class="msg in" style="animation-delay:3.5s">*Paid with Apple Pay*</div>
-                <div class="msg ok" style="animation-delay:4.8s">✓ $450 received instantly!</div>
-            </div></div>`,
+            5: `
+                <div class="demo demo-pay">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">Payment System</div>
+                    <div class="invoice" style="animation-delay:0.1s">
+                        <div class="inv-head">
+                            <b>Invoice</b>
+                            <span class="pill blue">#1048</span>
+                        </div>
+                        <div class="inv-line">
+                            <span>Leak repair</span>
+                            <b>$450</b>
+                        </div>
+                        <div class="inv-line muted">
+                            <span>Due</span>
+                            <b>Today</b>
+                        </div>
+                        <button class="pay-btn" type="button">Tap to pay (Apple Pay)</button>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:0.55s">
+                        <div class="demo-row">
+                            <b>Status</b>
+                            <span class="pill green">Paid</span>
+                        </div>
+                        <div class="demo-sub">Receipt sent → books updated</div>
+                    </div>
+                    <div class="demo-card" style="animation-delay:0.85s">
+                        <div class="demo-row">
+                            <b>If unpaid</b>
+                            <span class="pill">Auto-remind</span>
+                        </div>
+                        <div class="demo-sub">Day 2 / Day 5 / Day 10 cadence</div>
+                    </div>
+                </div>
+            `,
             
-            6: `<div class="demo-screen"><div class="demo-msgs">
-                <div class="msg out" style="animation-delay:0.3s">How was your service today?</div>
-                <div class="msg in" style="animation-delay:1.5s">⭐⭐⭐⭐⭐ Excellent!</div>
-                <div class="msg out" style="animation-delay:2.5s">Thanks! Mind leaving a Google review?</div>
-                <div class="msg in" style="animation-delay:4s">Just posted it!</div>
-                <div class="msg ok" style="animation-delay:5.2s">✓ New 5-star review!</div>
-            </div></div>`
+            6: `
+                <div class="demo demo-review">
+                    <div class="demo-topbar">
+                        <span>9:41</span>
+                        <span class="dots"></span>
+                        <span>5G</span>
+                    </div>
+                    <div class="demo-title">Review Booster</div>
+                    <div class="rate" style="animation-delay:0.1s">
+                        <b>How'd we do?</b>
+                        <div class="stars">
+                            <span class="s on"></span>
+                            <span class="s on"></span>
+                            <span class="s on"></span>
+                            <span class="s on"></span>
+                            <span class="s on"></span>
+                        </div>
+                        <div class="demo-sub">Private rating first</div>
+                    </div>
+                    <div class="demo-card ok" style="animation-delay:0.45s">
+                        <div class="demo-row">
+                            <b>If 4–5★</b>
+                            <span class="pill green">Google link</span>
+                        </div>
+                        <div class="demo-sub">One tap → review posted</div>
+                    </div>
+                    <div class="demo-card" style="animation-delay:0.75s">
+                        <div class="demo-row">
+                            <b>If 1–3★</b>
+                            <span class="pill amber">Owner alert</span>
+                        </div>
+                        <div class="demo-sub">Collect feedback privately before it goes public</div>
+                    </div>
+                </div>
+            `
         };
         
         return demos[stageId] || demos[1];
