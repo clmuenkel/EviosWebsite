@@ -991,6 +991,16 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.4;
+    /* Override card styles from .step */
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-align: left !important;
+    display: block !important;
+    height: auto !important;
+    flex-direction: row !important;
+    transition: none !important;
+    margin: 0 !important;
 }
 
 .lane .step:first-of-type {
