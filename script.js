@@ -229,6 +229,13 @@ function initFlowSection() {
         transitionLock = true;
         activeStage = stageId;
         
+        // Fade out demo content first
+        const demoScreen = document.getElementById('demo-screen');
+        if (demoScreen) {
+            demoScreen.style.transition = 'opacity 0.15s ease';
+            demoScreen.style.opacity = '0';
+        }
+        
         // Quick fade transition
         const card = flowDetail.querySelector('.detail-card');
         if (card) {
@@ -287,10 +294,25 @@ function initFlowSection() {
         stopDemo();
         if (!demoScreen) return;
 
-        demoScreen.innerHTML = getDemoHTML(stageId);
-        lucide.createIcons();
+        // Add fade-out transition before replacing content (for looping)
+        if (demoScreen.innerHTML.trim()) {
+            demoScreen.style.transition = 'opacity 0.2s ease';
+            demoScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                demoScreen.innerHTML = getDemoHTML(stageId);
+                lucide.createIcons();
+                // Force reflow to ensure animations restart
+                demoScreen.offsetHeight;
+                demoScreen.style.opacity = '1';
+            }, 200);
+        } else {
+            demoScreen.innerHTML = getDemoHTML(stageId);
+            lucide.createIcons();
+        }
 
-        const duration = stageId === 2 ? 8500 : 7000;
+        // Keep the loop - but with longer duration for less jarring resets
+        const duration = stageId === 2 ? 9000 : 8000;
         demoTimer = setTimeout(() => playDemo(stageId), duration);
     }
 

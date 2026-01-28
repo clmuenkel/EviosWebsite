@@ -592,12 +592,13 @@ body {
     padding: 58px 14px 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     color: #1e293b;
     font-family: var(--font);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     background: transparent;
+    box-sizing: border-box;
 }
 
 .demo-topbar {
@@ -612,6 +613,7 @@ body {
     color: rgba(30, 41, 59, 0.7);
     z-index: 5;
     font-weight: 600;
+    pointer-events: none;
 }
 
 .demo-topbar .dots {
@@ -626,18 +628,22 @@ body {
     font-size: 13px;
     letter-spacing: 0.02em;
     color: #1e293b;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    margin-top: 0;
 }
 
 .demo-card {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    border-radius: 14px;
-    padding: 10px 11px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 12px;
+    padding: 10px 12px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    min-height: fit-content;
+    word-wrap: break-word;
+    transition: opacity 0.2s ease;
 }
 
 .demo-card.ok {
@@ -649,20 +655,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     font-size: 12px;
+    min-width: 0;
 }
 
 .demo-row b {
     color: #1e293b;
     font-weight: 600;
+    flex-shrink: 0;
 }
 
 .demo-sub {
     margin-top: 4px;
     font-size: 11.5px;
     color: rgba(30, 41, 59, 0.65);
-    line-height: 1.35;
+    line-height: 1.4;
+    word-wrap: break-word;
 }
 
 .pill {
@@ -674,6 +683,10 @@ body {
     color: #475569;
     white-space: nowrap;
     font-weight: 500;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
 }
 
 .pill.blue {
@@ -697,7 +710,7 @@ body {
 @keyframes demoUp {
     from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateY(4px);
     }
     to {
         opacity: 1;
@@ -713,14 +726,17 @@ body {
 }
 
 .bubble {
-    max-width: 90%;
-    padding: 10px 12px;
+    max-width: 85%;
+    padding: 9px 12px;
     border-radius: 16px;
-    font-size: 12.5px;
-    line-height: 1.35;
+    font-size: 12px;
+    line-height: 1.4;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    transition: opacity 0.2s ease;
 }
 
 .bubble.out {
@@ -742,20 +758,22 @@ body {
 
 /* Call UI - Light theme */
 .call-card {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 16px;
     padding: 12px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
 }
 
 .call-head {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
 }
 
 .call-head .avatar {
@@ -777,12 +795,18 @@ body {
     font-size: 12.5px;
     font-weight: 700;
     color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .call-muted {
     font-size: 11px;
     color: rgba(30, 41, 59, 0.6);
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .wave {
@@ -825,14 +849,16 @@ body {
 }
 
 .mini {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 12px;
     padding: 10px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    min-width: 0;
+    transition: opacity 0.2s ease;
 }
 
 .mini b {
@@ -841,18 +867,22 @@ body {
     margin-bottom: 6px;
     color: #1e293b;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Scheduling - Light theme */
 .calendar {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 16px;
     padding: 12px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
 }
 
 .cal-head {
@@ -894,8 +924,12 @@ body {
     padding: 7px 9px;
     border-radius: 12px;
     background: rgba(241, 245, 249, 0.8);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     color: #475569;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .event.blue {
@@ -914,16 +948,17 @@ body {
     display: grid;
     gap: 10px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .lane {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 16px;
     padding: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
 }
 
 .lane b {
@@ -942,30 +977,38 @@ body {
     border: 1px solid rgba(59, 130, 246, 0.25);
     color: #2563eb;
     font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    display: inline-block;
 }
 
-.step {
+.lane .step {
     font-size: 11.5px;
     color: rgba(30, 41, 59, 0.75);
     padding: 7px 0;
     border-top: 1px solid rgba(148, 163, 184, 0.15);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
 }
 
-.step:first-of-type {
+.lane .step:first-of-type {
     border-top: none;
     padding-top: 0;
 }
 
 /* Payments - Light theme */
 .invoice {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 16px;
     padding: 12px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
 }
 
 .inv-head {
@@ -989,6 +1032,8 @@ body {
     border-top: 1px solid rgba(148, 163, 184, 0.15);
     font-size: 11.5px;
     color: #475569;
+    min-width: 0;
+    gap: 8px;
 }
 
 .inv-line:first-of-type {
@@ -999,9 +1044,19 @@ body {
     color: rgba(30, 41, 59, 0.6);
 }
 
+.inv-line span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+}
+
 .inv-line b {
     color: #1e293b;
     font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .pay-btn {
@@ -1028,14 +1083,15 @@ body {
 
 /* Reviews - Light theme */
 .rate {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 16px;
     padding: 12px;
     opacity: 0;
-    transform: translateY(6px);
-    animation: demoUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(4px);
+    animation: demoUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
 }
 
 .rate b {
@@ -1262,6 +1318,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    align-items: start;
 }
 
 .step {
@@ -1271,6 +1328,9 @@ body {
     border: 1px solid var(--border);
     border-radius: 16px;
     transition: all 0.3s var(--ease);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .step:hover {
@@ -1292,6 +1352,7 @@ body {
     font-size: 1.125rem;
     font-weight: 700;
     color: var(--blue-bright);
+    flex-shrink: 0;
 }
 
 .step h4 {
@@ -1299,12 +1360,14 @@ body {
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: var(--text-primary);
+    flex-shrink: 0;
 }
 
 .step p {
     font-size: 0.9375rem;
     color: var(--text-secondary);
     line-height: 1.6;
+    flex: 1;
 }
 
 /* ========================================
