@@ -66,6 +66,7 @@ body {
     width: 90%;
     max-width: 1100px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* ========================================
@@ -82,10 +83,10 @@ body {
 }
 
 .section-title {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
 }
 
 .gradient-text {
@@ -108,6 +109,7 @@ body {
     padding: 60px 20px 30px;
     background: var(--bg-page);
     overflow: hidden;
+    padding-top: calc(60px + env(safe-area-inset-top));
 }
 
 /* Floating Shapes - Hidden to prevent background line */
@@ -127,6 +129,15 @@ body {
     font-size: 1.125rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
+}
+
+.scroll-indicator {
+    font-size: 0.875rem;
+}
+
+.scroll-indicator svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Scroll Indicator */
@@ -1505,6 +1516,25 @@ body {
 /* ========================================
    RESPONSIVE
    ======================================== */
+
+/* Tablet Landscape (900px - 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .hero {
+        min-height: 32vh;
+        padding: 50px 20px 30px;
+        padding-top: calc(50px + env(safe-area-inset-top));
+    }
+    
+    .hero-title {
+        font-size: clamp(2rem, 6vw, 3rem);
+    }
+}
+
+/* Tablet Portrait (768px - 900px) */
 @media (max-width: 900px) {
     .node-circle { width: 76px; height: 76px; }
     .node-circle svg { width: 28px; height: 28px; }
@@ -1539,37 +1569,83 @@ body {
         border-radius: 2px;
     }
     
-    .iphone { width: 240px; height: 500px; }
-    .iphone-frame { border-radius: 46px; padding: 8px; }
-    .iphone-screen { border-radius: 40px; }
-    .iphone-island { width: 110px; height: 32px; top: 14px; }
-}
-
-@media (max-width: 768px) {
-    .flow-track { padding: 50px 0; }
-    
-    .node-circle { width: 68px; height: 68px; }
-    .node-circle svg { width: 26px; height: 26px; }
-    .node-label { font-size: 0.625rem; max-width: 68px; }
-    
-    .steps { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-    
-    .footer-row { flex-direction: column; gap: 1.5rem; }
-    .footer-links { flex-wrap: wrap; gap: 1.25rem; }
-}
-
-@media (max-width: 640px) {
-    .flow-track {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 40px 0;
-        margin: 0 -20px;
-        padding-left: 20px;
-        padding-right: 20px;
+    .iphone { 
+        width: 240px; 
+        height: 500px; 
     }
     
-    .flow-nodes {
-        min-width: 580px;
+    .iphone-frame { 
+        border-radius: 46px; 
+        padding: 8px; 
+    }
+    
+    .iphone-screen { 
+        border-radius: 40px; 
+    }
+    
+    .iphone-island { 
+        width: 110px; 
+        height: 32px; 
+        top: 14px; 
+    }
+    
+    .detail-card {
+        max-width: 90vw;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    /* Demo content - slightly reduced */
+    .demo {
+        padding: 54px 12px 14px;
+        gap: 7px;
+    }
+    
+    .demo-topbar {
+        font-size: 10.5px;
+    }
+    
+    .demo-title {
+        font-size: 12.5px;
+    }
+    
+    .demo-card {
+        padding: 9px 11px;
+        font-size: 11.5px;
+    }
+    
+    .demo-row {
+        font-size: 11.5px;
+    }
+    
+    .demo-sub {
+        font-size: 11px;
+    }
+    
+    .pill {
+        font-size: 10.5px;
+    }
+}
+
+/* Tablet Portrait (640px - 768px) */
+@media (max-width: 768px) {
+    .flow-track { 
+        padding: 50px 0; 
+    }
+    
+    .node-circle { 
+        width: 68px; 
+        height: 68px; 
+    }
+    
+    .node-circle svg { 
+        width: 26px; 
+        height: 26px; 
+    }
+    
+    .node-label { 
+        font-size: 0.625rem; 
+        max-width: 68px; 
     }
     
     .flow-line {
@@ -1577,16 +1653,455 @@ body {
         right: 5%;
     }
     
-    .detail-header { padding: 1rem; }
+    .detail-card {
+        max-width: 600px;
+    }
     
-    .stage-picker { gap: 6px; padding: 8px 10px; }
-    .picker-btn { width: 38px; height: 38px; }
-    .picker-btn svg { width: 18px; height: 18px; }
+    .iphone {
+        width: 220px;
+        height: 460px;
+    }
     
-    .iphone { width: 220px; height: 460px; }
-    .iphone-frame { border-radius: 42px; }
-    .iphone-screen { border-radius: 36px; }
-    .iphone-island { width: 100px; height: 28px; top: 12px; }
+    .iphone-frame {
+        border-radius: 42px;
+    }
+    
+    .iphone-screen {
+        border-radius: 36px;
+    }
+    
+    .iphone-island {
+        width: 100px;
+        height: 28px;
+        top: 12px;
+    }
+    
+    .steps { 
+        grid-template-columns: 1fr; 
+        max-width: 100%;
+        margin: 0 auto; 
+    }
+    
+    .step {
+        padding: 1.75rem 1.25rem;
+    }
+    
+    .cta {
+        padding: 70px 20px 90px;
+    }
+    
+    .cta-box {
+        padding: 2.5rem 2rem;
+    }
+    
+    .footer {
+        padding: 50px 20px 40px;
+    }
+    
+    .footer-row { 
+        flex-direction: column; 
+        gap: 1.5rem; 
+    }
+    
+    .footer-links { 
+        flex-wrap: wrap; 
+        gap: 1.25rem; 
+    }
+}
+
+/* Phone (< 640px) */
+@media (max-width: 640px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .flow-track {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        padding: 30px 0;
+        margin: 0 -10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        scrollbar-width: none;
+    }
+    
+    .flow-track::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .flow-nodes {
+        min-width: 600px;
+        gap: 8px;
+    }
+    
+    .flow-node {
+        scroll-snap-align: center;
+    }
+    
+    .flow-line {
+        left: 3%;
+        right: 3%;
+    }
+    
+    .node-circle {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .node-circle svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .node-label {
+        font-size: 0.5625rem;
+        max-width: 60px;
+        line-height: 1.2;
+    }
+    
+    .node-number {
+        font-size: 0.625rem;
+    }
+    
+    /* Detail Modal - Full Screen */
+    .flow-detail {
+        padding: 0;
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .detail-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        padding: 12px 15px;
+    }
+    
+    .detail-back {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+    }
+    
+    .detail-back span {
+        display: none;
+    }
+    
+    .detail-back svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .stage-picker {
+        gap: 4px;
+        padding: 6px 8px;
+    }
+    
+    .picker-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .picker-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .detail-card {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        width: 100%;
+        gap: 1.5rem;
+        padding: 1rem 15px 2rem;
+        max-height: none;
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .detail-phone {
+        order: 1;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .detail-content {
+        order: 2;
+        max-height: none;
+        overflow-y: visible;
+        padding: 0;
+    }
+    
+    /* iPhone - Smaller on mobile */
+    .iphone {
+        width: 200px;
+        height: 420px;
+    }
+    
+    .iphone-frame {
+        border-radius: 38px;
+        padding: 6px;
+    }
+    
+    .iphone-screen {
+        border-radius: 32px;
+    }
+    
+    .iphone-island {
+        width: 90px;
+        height: 24px;
+        top: 10px;
+        padding-right: 12px;
+    }
+    
+    .island-camera {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Demo Content - Adjusted for smaller phone */
+    .demo {
+        padding: 50px 10px 12px;
+        gap: 6px;
+    }
+    
+    .demo-topbar {
+        top: 14px;
+        left: 14px;
+        right: 14px;
+        font-size: 10px;
+    }
+    
+    .demo-title {
+        font-size: 12px;
+        margin-bottom: 3px;
+    }
+    
+    .demo-card {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+    
+    .demo-row {
+        font-size: 11px;
+        gap: 6px;
+    }
+    
+    .demo-sub {
+        font-size: 10.5px;
+        margin-top: 3px;
+    }
+    
+    .pill {
+        font-size: 10px;
+        padding: 3px 6px;
+        max-width: 100px;
+    }
+    
+    /* Hero Section */
+    .hero {
+        min-height: 30vh;
+        padding: 40px 15px 20px;
+        padding-top: calc(40px + env(safe-area-inset-top));
+    }
+    
+    .hero-title {
+        font-size: clamp(1.75rem, 8vw, 2.5rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .scroll-indicator {
+        font-size: 0.8125rem;
+    }
+    
+    .scroll-indicator svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Flow Section */
+    .flow-section {
+        min-height: 50vh;
+        padding: 20px 10px 40px;
+    }
+    
+    /* Detail Content Text */
+    .detail-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
+    }
+    
+    .detail-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .detail-name {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .detail-product {
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .detail-problem h3,
+    .detail-solution h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .detail-problem ul,
+    .detail-solution ul {
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+    
+    .detail-problem li,
+    .detail-solution li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .detail-products {
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .product-tag {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+    
+    /* CTA Section */
+    .cta {
+        padding: 60px 15px 80px;
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+    
+    .cta-box {
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+    }
+    
+    .cta h2 {
+        font-size: 1.75rem;
+    }
+    
+    .cta p {
+        font-size: 0.9375rem;
+    }
+    
+    .btn-primary {
+        font-size: 0.9375rem;
+        padding: 12px 24px;
+    }
+    
+    .cta-note {
+        font-size: 0.8125rem;
+    }
+    
+    /* How It Works */
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+    }
+    
+    .step {
+        padding: 1.5rem 1rem;
+    }
+    
+    .step-num {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .step h4 {
+        font-size: 1rem;
+    }
+    
+    .step p {
+        font-size: 0.875rem;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 40px 15px 30px;
+        padding-bottom: calc(30px + env(safe-area-inset-bottom));
+    }
+    
+    .footer-row {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .logo {
+        font-size: 1.25rem;
+    }
+}
+
+/* Small Phones (< 375px) */
+@media (max-width: 375px) {
+    .node-circle {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .node-circle svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .node-label {
+        font-size: 0.5rem;
+        max-width: 55px;
+    }
+    
+    .iphone {
+        width: 180px;
+        height: 380px;
+    }
+    
+    .iphone-frame {
+        border-radius: 34px;
+        padding: 5px;
+    }
+    
+    .iphone-screen {
+        border-radius: 29px;
+    }
+    
+    .iphone-island {
+        width: 80px;
+        height: 22px;
+        top: 8px;
+    }
+    
+    .detail-name {
+        font-size: 1.25rem;
+    }
 }
 
 /* ========================================
