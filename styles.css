@@ -1855,9 +1855,17 @@ body {
     }
     
     .stage-picker {
-        bottom: 15px;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 30px);
+        max-width: 400px;
         gap: 4px;
-        padding: 8px 12px;
+        padding: 12px 16px;
+        margin-bottom: env(safe-area-inset-bottom, 0);
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
     }
     
     .picker-btn {
