@@ -1715,34 +1715,79 @@ body {
         padding: 0 10px;
     }
     
+    /* VERTICAL FLOW LAYOUT - PHONE ONLY */
     .flow-track {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        scroll-snap-type: x mandatory;
-        padding: 30px 0;
-        margin: 0 -10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        scrollbar-width: none;
-    }
-    
-    .flow-track::-webkit-scrollbar {
-        display: none;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 30px 0 60px;
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
     
     .flow-nodes {
-        min-width: 600px;
-        gap: 8px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        min-width: auto;
+        width: 100%;
     }
     
     .flow-node {
-        scroll-snap-align: center;
+        scroll-snap-align: none;
     }
     
+    /* Vertical connector line */
     .flow-line {
-        left: 3%;
-        right: 3%;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: auto;
+        width: 2px;
+        height: 100%;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, 
+            transparent 0%, 
+            rgba(59, 130, 246, 0.35) 10%, 
+            rgba(59, 130, 246, 0.5) 50%, 
+            rgba(59, 130, 246, 0.35) 90%, 
+            transparent 100%
+        );
+    }
+    
+    .flow-line::before {
+        inset: 0 -6px;
+        background: linear-gradient(180deg, 
+            transparent 0%, 
+            rgba(59, 130, 246, 0.12) 10%, 
+            rgba(59, 130, 246, 0.2) 50%, 
+            rgba(59, 130, 246, 0.12) 90%, 
+            transparent 100%
+        );
+    }
+    
+    /* Vertical pulse animation */
+    .flow-pulse {
+        top: -100px;
+        left: 50%;
+        width: 10px;
+        height: 100px;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, 
+            transparent, 
+            rgba(96, 165, 250, 0.5), 
+            rgba(59, 130, 246, 0.8), 
+            rgba(96, 165, 250, 0.5), 
+            transparent
+        );
+        animation: pulseVertical 5s linear infinite;
+    }
+    
+    @keyframes pulseVertical {
+        0% { top: -100px; opacity: 0; }
+        5% { opacity: 1; }
+        95% { opacity: 1; }
+        100% { top: calc(100% + 100px); opacity: 0; }
     }
     
     .node-circle {
@@ -1765,8 +1810,12 @@ body {
         font-size: 0.625rem;
     }
     
-    /* Detail Modal - Full Screen */
+    /* Detail Modal - Full Screen with Scrolling */
     .flow-detail {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        align-items: flex-start;
+        justify-content: flex-start;
         padding: 0;
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
@@ -1820,7 +1869,8 @@ body {
         gap: 1.5rem;
         padding: 1rem 15px 2rem;
         max-height: none;
-        margin: 0;
+        overflow-y: visible;
+        margin: 60px 0 20px 0;
         border-radius: 0;
     }
     
