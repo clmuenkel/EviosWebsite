@@ -39,6 +39,19 @@ function initFlowSection() {
     
     if (!flowSection || !flowDetail) return;
 
+    // Clear any persisted scroll lock state on page load
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
+    document.documentElement.classList.remove('body-scroll-lock');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.classList.remove('body-scroll-lock');
+    delete document.body.dataset.scrollY;
+    // Ensure page starts at top
+    window.scrollTo(0, 0);
+
     // State
     let isZoomed = false;
     let activeStage = null;
@@ -49,14 +62,32 @@ function initFlowSection() {
     // Prevent background scroll when modal is open
     function preventBackgroundScroll(e) {
         if (!isZoomed) return;
-        const target = e.target;
+        
         const flowDetail = document.querySelector('.flow-detail');
+        const target = e.target;
+        
+        // Check if scroll is happening inside modal or its children
+        let isInsideModal = false;
+        if (flowDetail) {
+            let element = target;
+            while (element && element !== document.body) {
+                if (element === flowDetail || element.closest('.flow-detail')) {
+                    isInsideModal = true;
+                    break;
+                }
+                element = element.parentElement;
+            }
+        }
+        
         // Allow scrolling inside modal
-        if (flowDetail && (flowDetail.contains(target) || flowDetail === target)) {
+        if (isInsideModal) {
             return;
         }
-        // Prevent scrolling on background
+        
+        // Prevent all other scrolling
         e.preventDefault();
+        e.stopPropagation();
+        return false;
     }
 
     // Stage Data
@@ -195,20 +226,17 @@ function initFlowSection() {
 
         flowSection.classList.add('zoomed');
         
-        // Lock body and html scroll and save scroll position
-        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-        document.documentElement.style.position = 'fixed';
-        document.documentElement.style.top = `-${scrollY}px`;
-        document.documentElement.style.width = '100%';
-        document.documentElement.classList.add('body-scroll-lock');
+        // Lock body scroll and save scroll position
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollY}px`;
         document.body.style.width = '100%';
-        document.body.classList.add('body-scroll-lock');
         document.body.dataset.scrollY = scrollY;
         
-        // Prevent touch scrolling on background
+        // Prevent scrolling on background (both touch and mouse wheel)
         document.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+        document.addEventListener('wheel', preventBackgroundScroll, { passive: false });
 
         // Focus management
         const backBtn = flowDetail.querySelector('.detail-back');
@@ -230,23 +258,22 @@ function initFlowSection() {
         stopDemo();
         flowSection.classList.remove('zoomed');
         
-        // Unlock body and html scroll and restore scroll position
-        const scrollY = document.body.dataset.scrollY || 0;
-        document.documentElement.style.position = '';
-        document.documentElement.style.top = '';
-        document.documentElement.style.width = '';
-        document.documentElement.classList.remove('body-scroll-lock');
+        // Unlock body scroll and restore scroll position
+        const scrollY = parseInt(document.body.dataset.scrollY || 0);
+        document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
-        document.body.classList.remove('body-scroll-lock');
         delete document.body.dataset.scrollY;
         
-        // Remove touch event listener
+        // Remove event listeners
         document.removeEventListener('touchmove', preventBackgroundScroll);
+        document.removeEventListener('wheel', preventBackgroundScroll);
         
-        // Restore scroll position
-        window.scrollTo(0, parseInt(scrollY || 0));
+        // Restore scroll position after styles are cleared
+        setTimeout(() => {
+            window.scrollTo(0, scrollY);
+        }, 10);
 
         // Restore focus to originating node
         if (lastClickedNode) {
