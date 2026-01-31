@@ -1598,6 +1598,24 @@ body {
 
 .logo span { color: var(--blue-bright); }
 
+/* Footer Logo */
+.logo-link {
+    display: inline-block;
+    text-decoration: none;
+    line-height: 0;
+}
+
+.footer-logo {
+    height: 32px;
+    width: auto;
+    max-width: 150px;
+}
+
+/* Hide the old text logo */
+.footer-brand .logo {
+    display: none;
+}
+
 .footer-brand p {
     color: var(--text-muted);
     font-size: 0.875rem;
@@ -2310,6 +2328,10 @@ body {
     
     .logo {
         font-size: 1.25rem;
+    }
+    
+    .footer-logo {
+        height: 28px;
     }
 }
 
