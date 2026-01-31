@@ -62,11 +62,18 @@ html {
 /* Body scroll lock when modal is open */
 .body-scroll-lock {
     overflow: hidden !important;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-    -webkit-overflow-scrolling: none;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: none !important;
+}
+
+html.body-scroll-lock {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 body {
@@ -1619,9 +1626,9 @@ body {
 }
 
 .footer-logo {
-    height: 32px;
+    height: 24px;
     width: auto;
-    max-width: 150px;
+    max-width: 120px;
 }
 
 /* Hide the old text logo */
@@ -2344,7 +2351,8 @@ body {
     }
     
     .footer-logo {
-        height: 28px;
+        height: 20px;
+        max-width: 100px;
     }
 }
 
