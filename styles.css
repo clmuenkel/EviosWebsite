@@ -1734,7 +1734,7 @@ body {
         max-width: 380px;
         gap: 2rem;
         padding: 2rem;
-        max-height: 90vh;
+        max-height: none;
     }
     
     .detail-phone { order: 1; }
@@ -1987,8 +1987,7 @@ body {
     
     /* Detail Modal - Full Screen with Scrolling */
     .flow-detail {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow-y: visible;
         align-items: flex-start;
         justify-content: flex-start;
         padding: 0;
