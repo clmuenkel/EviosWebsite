@@ -39,18 +39,16 @@ function initFlowSection() {
     
     if (!flowSection || !flowDetail) return;
 
-    // Clear any persisted scroll lock state on page load
-    document.documentElement.style.position = '';
-    document.documentElement.style.top = '';
-    document.documentElement.style.width = '';
-    document.documentElement.classList.remove('body-scroll-lock');
+    // Ensure page starts at top - simple check
+    if (window.scrollY > 0 || document.documentElement.scrollTop > 0) {
+        window.scrollTo(0, 0);
+    }
+    // Clear any leftover scroll lock state
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.width = '';
-    document.body.classList.remove('body-scroll-lock');
+    document.body.style.overflow = '';
     delete document.body.dataset.scrollY;
-    // Ensure page starts at top
-    window.scrollTo(0, 0);
 
     // State
     let isZoomed = false;
