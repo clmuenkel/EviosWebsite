@@ -181,7 +181,14 @@ function initFlowSection() {
         playDemo(stageId);
 
         flowSection.classList.add('zoomed');
-        document.body.style.overflow = 'hidden';
+        
+        // Lock body scroll and save scroll position
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.classList.add('body-scroll-lock');
+        document.body.dataset.scrollY = scrollY;
 
         // Focus management
         const backBtn = flowDetail.querySelector('.detail-back');
@@ -202,7 +209,15 @@ function initFlowSection() {
         transitionLock = true;
         stopDemo();
         flowSection.classList.remove('zoomed');
-        document.body.style.overflow = '';
+        
+        // Unlock body scroll and restore scroll position
+        const scrollY = document.body.dataset.scrollY || 0;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.classList.remove('body-scroll-lock');
+        delete document.body.dataset.scrollY;
+        window.scrollTo(0, parseInt(scrollY || 0));
 
         // Restore focus to originating node
         if (lastClickedNode) {
