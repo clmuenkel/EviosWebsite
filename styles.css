@@ -1472,27 +1472,53 @@ body {
 }
 
 .step {
+    position: relative;
     text-align: center;
     padding: 2rem 1.5rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 16px;
-    transition: all 0.3s var(--ease);
+    transition: all 0.35s var(--ease);
     display: flex;
     flex-direction: column;
     height: 100%;
+    cursor: pointer;
+    user-select: none;
 }
 
 .step:hover {
     border-color: var(--blue);
-    transform: translateY(-6px);
-    box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 10px 30px -8px rgba(59, 130, 246, 0.25);
+}
+
+.step.expanded {
+    border-color: var(--blue);
+    box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.35);
+}
+
+/* FREE Badge */
+.step-badge {
+    display: inline-block;
+    margin: 0 auto 0.75rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.step-badge-free {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--blue-bright);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
 }
 
 .step-num {
     width: 44px;
     height: 44px;
-    margin: 0 auto 1.25rem;
+    margin: 0 auto 0.75rem;
     background: var(--blue-glow);
     border: 1px solid var(--blue-soft);
     border-radius: 50%;
@@ -1513,11 +1539,83 @@ body {
     flex-shrink: 0;
 }
 
-.step p {
+.step-summary {
     font-size: 0.9375rem;
     color: var(--text-secondary);
     line-height: 1.6;
     flex: 1;
+}
+
+/* Expandable content */
+.step-expand {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s var(--ease), opacity 0.3s var(--ease), margin 0.4s var(--ease);
+    margin-top: 0;
+}
+
+.step.expanded .step-expand {
+    max-height: 520px;
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+.step-expand ul {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.step-expand li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    padding-left: 1.25rem;
+    position: relative;
+}
+
+.step-expand li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+}
+
+.step-expand li b {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Toggle chevron */
+.step-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.75rem;
+}
+
+.step-toggle svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    transition: transform 0.35s var(--ease), color 0.25s;
+}
+
+.step:hover .step-toggle svg {
+    color: var(--blue-bright);
+}
+
+.step.expanded .step-toggle svg {
+    transform: rotate(180deg);
+    color: var(--blue-bright);
 }
 
 /* ========================================
@@ -1610,24 +1708,6 @@ body {
 }
 
 .logo span { color: var(--blue-bright); }
-
-/* Footer Logo */
-.logo-link {
-    display: inline-block;
-    text-decoration: none;
-    line-height: 0;
-}
-
-.footer-logo {
-    height: 16px !important;
-    width: auto;
-    max-width: 90px !important;
-}
-
-/* Hide the old text logo */
-.footer-brand .logo {
-    display: none;
-}
 
 .footer-brand p {
     color: var(--text-muted);
@@ -1853,9 +1933,10 @@ body {
         top: 12px;
     }
     
+    /* How It Works - Tablet */
     .steps { 
         grid-template-columns: 1fr; 
-        max-width: 100%;
+        max-width: 520px;
         margin: 0 auto; 
     }
     
@@ -2296,15 +2377,19 @@ body {
         width: 40px;
         height: 40px;
         font-size: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
     
     .step h4 {
         font-size: 1rem;
     }
     
-    .step p {
+    .step-summary {
         font-size: 0.875rem;
+    }
+
+    .step-expand li {
+        font-size: 0.8125rem;
     }
     
     /* Footer */
@@ -2327,11 +2412,6 @@ body {
     
     .logo {
         font-size: 1.25rem;
-    }
-    
-    .footer-logo {
-        height: 14px !important;
-        max-width: 70px !important;
     }
 }
 

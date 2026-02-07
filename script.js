@@ -28,6 +28,19 @@ function initScrollAnimations() {
     document.querySelectorAll('.flow-node').forEach(node => {
         observer.observe(node);
     });
+
+    // Expandable steps (accordion)
+    document.querySelectorAll('.how-it-works .step').forEach(step => {
+        step.addEventListener('click', () => {
+            const isExpanded = step.classList.contains('expanded');
+            // Close all
+            document.querySelectorAll('.how-it-works .step').forEach(s => s.classList.remove('expanded'));
+            // Toggle clicked
+            if (!isExpanded) {
+                step.classList.add('expanded');
+            }
+        });
+    });
 }
 
 // ========================================
