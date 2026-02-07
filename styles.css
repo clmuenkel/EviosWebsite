@@ -1989,11 +1989,12 @@ body {
     
     /* Detail Modal - Full Screen with Scrolling */
     .flow-detail {
-        overflow-y: visible;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         align-items: flex-start;
         justify-content: flex-start;
         padding: 0;
-        padding-top: env(safe-area-inset-top);
+        padding-top: calc(60px + env(safe-area-inset-top));
         padding-bottom: env(safe-area-inset-bottom);
     }
     

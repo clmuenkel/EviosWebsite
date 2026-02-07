@@ -3,28 +3,11 @@
  * Professional, Smooth, Premium
  */
 
-// #region agent log
-// Log initial state before DOMContentLoaded
-if (typeof window !== 'undefined') {
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:6',message:'Script loaded - before DOMContentLoaded',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop,bodyTop:document.body?.style?.top,bodyPosition:document.body?.style?.position},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-}
-// #endregion
-
 document.addEventListener('DOMContentLoaded', () => {
-    // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:12',message:'DOMContentLoaded - initial scroll check',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop,bodyTop:document.body.style.top,bodyPosition:document.body.style.position,bodyDatasetScrollY:document.body.dataset.scrollY},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
     lucide.createIcons();
     initScrollAnimations();
     initFlowSection();
 });
-
-// #region agent log
-// Log after window load
-window.addEventListener('load', () => {
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:20',message:'Window load event - final scroll check',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop,bodyTop:document.body.style.top,bodyPosition:document.body.style.position},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-});
-// #endregion
 
 // ========================================
 // SCROLL ANIMATIONS
@@ -56,10 +39,6 @@ function initFlowSection() {
     
     if (!flowSection || !flowDetail) return;
 
-    // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:40',message:'initFlowSection start - before scroll reset',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop,bodyTop:document.body.style.top,bodyPosition:document.body.style.position,bodyDatasetScrollY:document.body.dataset.scrollY,bodyOverflow:document.body.style.overflow},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
-
     // Aggressively ensure page starts at top - clear ALL scroll state first
     document.body.style.position = '';
     document.body.style.top = '';
@@ -74,23 +53,12 @@ function initFlowSection() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     
-    // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:55',message:'ScrollTo(0,0) called - forced reset',data:{scrollYBefore:window.scrollY,docScrollTopBefore:document.documentElement.scrollTop},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
-    
     // Also set after a brief delay to catch any late scrolls
     setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:63',message:'Delayed scroll reset',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
     }, 100);
-    
-    // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:68',message:'After scroll reset and cleanup',data:{scrollY:window.scrollY,docScrollTop:document.documentElement.scrollTop,bodyTop:document.body.style.top,bodyPosition:document.body.style.position,bodyDatasetScrollY:document.body.dataset.scrollY},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
 
     // State
     let isZoomed = false;
@@ -292,9 +260,6 @@ function initFlowSection() {
 
     // Close Stage
     function closeStage() {
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:250',message:'closeStage called',data:{isZoomed:isZoomed,transitionLock:transitionLock,scrollY:window.scrollY,bodyDatasetScrollY:document.body.dataset.scrollY},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
         if (!isZoomed || transitionLock) return;
 
         transitionLock = true;
@@ -303,9 +268,6 @@ function initFlowSection() {
         
         // Unlock body scroll and restore scroll position
         const scrollY = parseInt(document.body.dataset.scrollY || 0);
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:262',message:'closeStage - before restore',data:{scrollY:scrollY,currentScrollY:window.scrollY},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.top = '';
@@ -320,9 +282,6 @@ function initFlowSection() {
         // Check isZoomed state at the time of setTimeout execution
         const wasZoomed = isZoomed;
         setTimeout(() => {
-            // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/2f74bf56-0b24-4be2-a6c3-c8f78fc56eeb',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:310',message:'closeStage - restoring scroll position',data:{scrollY:scrollY,currentScrollY:window.scrollY,wasZoomed:wasZoomed,isZoomed:isZoomed},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-            // #endregion
             // Only restore if scrollY is valid and modal was actually open (not on page load)
             if (scrollY > 0 && wasZoomed) {
                 window.scrollTo(0, scrollY);
