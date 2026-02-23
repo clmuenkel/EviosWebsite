@@ -35,7 +35,7 @@ const PILLARS: Pillar[] = [
       "After job complete, sends review requests automatically",
       "Routes unhappy customers to private feedback",
       "If happy, pushes Google review",
-      'Optional referral ask: "Know a neighbor who needs a plumber?"',
+      'Optional referral ask: "Know someone who needs help?"',
     ],
   },
 ];
@@ -45,7 +45,7 @@ export function Pillars() {
     <section className="section-block section-divider">
       <div className="section-frame">
         <h2 className="section-heading max-w-4xl">
-          Everything you need to turn calls into booked plumbing jobs.
+          Everything you need to turn inbound demand into booked home service jobs.
         </h2>
 
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">

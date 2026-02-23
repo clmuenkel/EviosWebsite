@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 import { scrollToId } from "../lib/scroll";
 
 const NAV_ITEMS = [
@@ -12,8 +13,8 @@ const NAV_ITEMS = [
 ] as const;
 
 const CTA_ITEMS = [
-  { id: "contact", label: "Book a demo", primary: true },
-  { id: "demo", label: "Hear a demo call", primary: false },
+  { label: BOOKING_CTA_LABEL, primary: true, href: BOOKING_URL, id: undefined },
+  { label: "Hear a demo call", primary: false, id: "demo", href: undefined },
 ] as const;
 
 function HeaderLink({
@@ -42,26 +43,44 @@ function HeaderLink({
 function HeaderCta({
   label,
   targetId,
+  href,
   primary,
   onClick,
 }: {
   label: string;
-  targetId: string;
+  targetId?: string;
+  href?: string;
   primary: boolean;
   onClick?: () => void;
 }) {
+  const className = primary
+    ? "rounded-md bg-brand-accent px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-accentDark"
+    : "rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-brand-text transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent hover:text-white";
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        onClick={onClick}
+        className={className}
+      >
+        {label}
+      </a>
+    );
+  }
+
   return (
     <button
       type="button"
       onClick={() => {
-        scrollToId(targetId);
+        if (targetId) {
+          scrollToId(targetId);
+        }
         onClick?.();
       }}
-      className={
-        primary
-          ? "rounded-md bg-brand-accent px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-accentDark"
-          : "rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-brand-text transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent hover:text-white"
-      }
+      className={className}
     >
       {label}
     </button>
@@ -107,6 +126,7 @@ export function Header() {
               key={item.label}
               label={item.label}
               targetId={item.id}
+              href={item.href}
               primary={item.primary}
             />
           ))}
@@ -153,6 +173,7 @@ export function Header() {
                   key={item.label}
                   label={item.label}
                   targetId={item.id}
+                  href={item.href}
                   primary={item.primary}
                   onClick={() => setMobileOpen(false)}
                 />

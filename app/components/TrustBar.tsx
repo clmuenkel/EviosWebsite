@@ -16,7 +16,7 @@ const TRUST_CHIPS = [
   {
     label: "Emergency routing",
     detail:
-      "Urgent issues like leaks, no water, and sewer backups are flagged and routed to your on-call team immediately.",
+      "Urgent requests are flagged and routed to your on-call team immediately.",
   },
   {
     label: "Call summaries + transcripts",

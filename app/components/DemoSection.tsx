@@ -16,7 +16,7 @@ const DEMO_ITEMS: DemoItem[] = [
   {
     title: "After-Hours Missed",
     situation:
-      "11 PM missed call. No voicemail. Most plumbers lose this job. Not you.",
+      "11 PM missed call. No voicemail. Most home service teams lose this job. Not you.",
     audioSrc: "/demo/after-hours-missed-call.mp3",
     icon: "afterHours",
     outcomes: ["Instant text-back", "Slot selected", "Booking confirmed"],
@@ -32,7 +32,7 @@ const DEMO_ITEMS: DemoItem[] = [
   {
     title: "Quote Request",
     situation:
-      "Homeowner wants a water heater replacement quote. Needs it before the weekend.",
+      "Homeowner wants a replacement quote. Needs it before the weekend.",
     audioSrc: "/demo/water-heater-quote.mp3",
     icon: "quote",
     outcomes: ["Qualified lead", "Quote visit booked", "Details texted"],

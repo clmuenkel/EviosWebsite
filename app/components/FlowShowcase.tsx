@@ -32,7 +32,7 @@ const STAGES: ShowcaseStage[] = [
     name: "GET FOUND",
     product: "Referral Engine",
     icon: "users",
-    headline: "Turn completed jobs into new plumbing referrals.",
+    headline: "Turn completed jobs into new referrals.",
     problem:
       "Happy customers forget to tell their friends when referral asks are inconsistent.",
     problemBullets: [
@@ -71,8 +71,8 @@ const STAGES: ShowcaseStage[] = [
     ],
     tags: ["Referral Engine", "Marketing Automation"],
     phoneLines: [
-      "Thanks again for trusting us with your plumbing repair.",
-      "Do you know a neighbor who needs a plumber?",
+      "Thanks again for trusting us with your service request.",
+      "Do you know someone else who needs help?",
       "Tap here to share. We handle the rest.",
     ],
   },
@@ -119,7 +119,7 @@ const STAGES: ShowcaseStage[] = [
     ],
     tags: ["AI Receptionist", "Speed-to-Lead"],
     phoneLines: [
-      "Evios Plumbing answering for ABC Plumbing.",
+      "Evios answering for your home service team.",
       "Is there water actively leaking right now?",
       "Closest slot confirmed. Confirmation text sent.",
     ],
@@ -166,7 +166,7 @@ const STAGES: ShowcaseStage[] = [
     ],
     tags: ["Online Booking", "Auto-Reminders"],
     phoneLines: [
-      "Your plumbing appointment is booked for Tuesday at 9:00 AM.",
+      "Your service appointment is booked for Tuesday at 9:00 AM.",
       "Need a change? Reply RESCHEDULE.",
       "On-my-way text sent to your customer.",
     ],
@@ -419,13 +419,13 @@ function PhoneStageDemo({ stage }: { stage: ShowcaseStage }) {
               </div>
               <div className="demo-chat">
                 <div className="bubble out" style={{ animationDelay: "0.35s" }}>
-                  Thanks again for choosing ABC Plumbing.
+                  Thanks again for choosing ABC Home Services.
                 </div>
                 <div className="bubble out" style={{ animationDelay: "0.6s" }}>
                   Know anyone who needs help? Get $50 per referral.
                 </div>
                 <div className="bubble in" style={{ animationDelay: "0.95s" }}>
-                  My neighbor Mike needs a leak fixed.
+                  My neighbor Mike needs help this week.
                 </div>
               </div>
               <div className="demo-card ok" style={{ animationDelay: "1.25s" }}>
@@ -709,7 +709,7 @@ export function FlowShowcase() {
                   onClick={() => setActiveIndex(index)}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className={`stage-node flex h-full w-36 flex-col rounded-xl border p-3 text-center sm:w-40 ${
+                  className={`stage-node flex h-full min-h-[108px] w-36 flex-col items-center justify-start gap-2 rounded-xl border p-3 text-center sm:w-40 ${
                     activeNode
                       ? "stage-node-active border-brand-accent bg-brand-surface/90 shadow-[0_0_0_1px_rgba(59,130,246,0.45)]"
                       : "border-white/10 bg-brand-surface hover:-translate-y-1 hover:border-white/20"

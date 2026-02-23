@@ -10,39 +10,39 @@ type FaqItem = {
 
 const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Does it sound robotic?",
+    question: "What exactly does Evios build?",
     answer:
-      "No. It's built to sound natural and conversational, with responses tuned to plumbing calls and urgency.",
+      "We build custom automation around your pain points, from call intake and scheduling to quoting, follow-up, reviews, and referral loops.",
   },
   {
-    question: "What if it schedules the wrong thing?",
+    question: "How is this different from buying software off the shelf?",
     answer:
-      "We map your intake and booking rules first, then test and tune. You control what gets auto-booked versus routed to dispatch.",
+      "Off-the-shelf tools force your team to adapt. We design and implement a custom system around your existing workflow and business rules.",
   },
   {
-    question: "Can it handle emergencies?",
+    question: "What tools do you integrate with?",
     answer:
-      "Yes. Emergency calls are triaged immediately and routed based on your escalation rules.",
+      "We integrate with your current stack, including ServiceTitan, Jobber, Housecall Pro, Google Calendar, Zapier, and custom webhook/API workflows.",
   },
   {
-    question: "Do we need a new phone number?",
+    question: "How long until it is live?",
     answer:
-      "No. It works with your current setup and can layer into your existing phone flow.",
+      "Most systems go live in about four weeks, including discovery, build, testing, and launch.",
   },
   {
-    question: "Will it work with ServiceTitan/Jobber/Housecall Pro?",
+    question: "What if it does not work for us?",
     answer:
-      "Yes. It is designed to fit your current stack and push notes or bookings where your team already works.",
+      "You get a 30-day trial period after launch. If it does not create real value, you pay $0.",
   },
   {
-    question: "What about bilingual callers?",
+    question: "Do we need to replace our current phone system or software?",
     answer:
-      "Bilingual handling can be configured based on your market and workflow so callers are routed correctly.",
+      "No. We build around what you already use and layer automation into your current operations.",
   },
   {
-    question: "Can I turn it off anytime?",
+    question: "What kinds of home service businesses do you work with?",
     answer:
-      "Yes. You stay in control of call flow and can pause or adjust automation as needed.",
+      "We support teams across HVAC, plumbing, electrical, roofing, landscaping, cleaning, and other local home service categories.",
   },
 ];
 

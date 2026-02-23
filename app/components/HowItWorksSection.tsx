@@ -18,7 +18,7 @@ const LIVE_STEPS: LiveStep[] = [
       "Walk us through every step of how jobs come in and get closed",
       "We pinpoint where revenue is leaking and rank fixes by impact",
       "You leave with a clear picture of what gets built - before a line of code is written",
-      "Backed by data from plumbing contractors we have already helped",
+      "Backed by data from home service contractors we have already helped",
     ],
   },
   {

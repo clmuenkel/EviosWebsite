@@ -1,6 +1,7 @@
 "use client";
 
 import { scrollToId } from "../lib/scroll";
+import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 
 const HERO_BULLETS = [
   "Intake + booking built to your dispatch rules",
@@ -30,26 +31,6 @@ function HeroPhoneAnimation() {
 
               <div className="hero-phone-screen">
                 <span className="hero-screen-reflection" />
-
-                <div className="hero-status-row">
-                  <span className="hero-time-mini">9:41</span>
-                  <div className="hero-status-right">
-                    <div className="hero-signal">
-                      <span />
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                    <div className="hero-wifi">
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                    <div className="hero-battery">
-                      <span className="hero-battery-fill" />
-                    </div>
-                  </div>
-                </div>
 
                 <div className="hero-island">
                   <span className="hero-island-camera" />
@@ -108,11 +89,11 @@ export function Hero() {
       <div className="section-frame relative grid grid-cols-1 items-center gap-10 md:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="order-1">
           <h1 className="text-balance text-3xl font-bold leading-tight tracking-tight text-brand-text sm:text-4xl lg:text-5xl xl:text-6xl">
-            Stop losing plumbing jobs to missed calls.
+            Stop losing jobs to missed calls.
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-brand-muted sm:text-lg">
-            Evios partners with plumbing contractors to build and integrate
+            Evios partners with home service contractors to build and integrate
             custom automation into your existing tools — intake + scheduling,
             automated follow-up, rough estimates, and review/reputation flows.
             Live in 1 month. Free for 30 days. If it's not a win, you pay $0.
@@ -131,13 +112,14 @@ export function Hero() {
           </ul>
 
           <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={() => scrollToId("contact")}
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noreferrer"
               className="w-full rounded-md bg-gradient-to-r from-brand-accent to-brand-accentDark px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(37,99,235,0.35)] transition-all duration-300 hover:-translate-y-0.5 sm:w-auto"
             >
-              Book a demo
-            </button>
+              {BOOKING_CTA_LABEL}
+            </a>
             <button
               type="button"
               onClick={() => scrollToId("demo")}
@@ -288,103 +270,6 @@ export function Hero() {
             rgba(255, 255, 255, 0)
           );
           pointer-events: none;
-        }
-
-        .hero-status-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          font-size: 11px;
-          color: rgba(248, 250, 252, 0.92);
-          font-weight: 700;
-          padding: 0 8px 8px;
-        }
-
-        .hero-status-right {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-        }
-
-        .hero-signal {
-          display: flex;
-          align-items: end;
-          gap: 2px;
-        }
-
-        .hero-signal span {
-          width: 2px;
-          border-radius: 999px;
-          background: rgba(248, 250, 252, 0.9);
-        }
-
-        .hero-signal span:nth-child(1) {
-          height: 4px;
-        }
-
-        .hero-signal span:nth-child(2) {
-          height: 6px;
-        }
-
-        .hero-signal span:nth-child(3) {
-          height: 8px;
-        }
-
-        .hero-signal span:nth-child(4) {
-          height: 10px;
-        }
-
-        .hero-wifi {
-          display: flex;
-          align-items: center;
-          gap: 2px;
-        }
-
-        .hero-wifi span {
-          width: 6px;
-          height: 6px;
-          border: 1px solid rgba(248, 250, 252, 0.85);
-          border-color: rgba(248, 250, 252, 0.85) transparent transparent transparent;
-          border-radius: 50%;
-          transform: rotate(45deg);
-        }
-
-        .hero-wifi span:nth-child(2) {
-          width: 4px;
-          height: 4px;
-        }
-
-        .hero-wifi span:nth-child(3) {
-          width: 2px;
-          height: 2px;
-        }
-
-        .hero-battery {
-          width: 16px;
-          height: 8px;
-          border-radius: 2px;
-          border: 1px solid rgba(248, 250, 252, 0.85);
-          padding: 1px;
-          position: relative;
-        }
-
-        .hero-battery::after {
-          content: "";
-          position: absolute;
-          right: -3px;
-          top: 2px;
-          width: 2px;
-          height: 4px;
-          border-radius: 1px;
-          background: rgba(248, 250, 252, 0.85);
-        }
-
-        .hero-battery-fill {
-          display: block;
-          width: 78%;
-          height: 100%;
-          border-radius: 1px;
-          background: rgba(248, 250, 252, 0.9);
         }
 
         .hero-island {

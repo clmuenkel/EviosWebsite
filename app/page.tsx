@@ -15,14 +15,14 @@ export default function Home() {
   return (
     <div className="bg-brand-bg">
       <Hero />
-      <TrustBar />
       <PainOutcome />
       <FlowShowcase />
-      <Pillars />
       <HowItWorksSection />
+      <OfferSection />
       <DemoSection />
       <IntegrationsSection />
-      <OfferSection />
+      <Pillars />
+      <TrustBar />
       <FaqSection />
       <ContactSection />
       <Footer />

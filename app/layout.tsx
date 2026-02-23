@@ -5,7 +5,7 @@ import { Header } from "./components/Header";
 export const metadata: Metadata = {
   title: "Evios",
   description:
-    "Done-for-you custom software and automation for plumbing contractors, integrated into your existing tools.",
+    "Done-for-you custom software and automation for home service contractors, integrated into your existing tools.",
 };
 
 export default function RootLayout({
