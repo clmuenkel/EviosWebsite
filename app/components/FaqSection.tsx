@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { BookCta } from "./BookCta";
 
 type FaqItem = {
   question: string;
@@ -100,10 +99,6 @@ export function FaqSection() {
           })}
         </div>
 
-        <div className="faq-cta mt-8 rounded-xl border border-brand-accent/30 bg-brand-accent/10 p-4">
-          <BookCta />
-        </div>
-
         <style jsx global>{`
           .faq-section .faq-item {
             position: relative;
@@ -172,19 +167,6 @@ export function FaqSection() {
 
           .faq-section .faq-answer-grid p {
             border-top-color: rgba(148, 163, 184, 0.22);
-          }
-
-          .faq-section .faq-cta {
-            transition:
-              transform 220ms ease,
-              border-color 220ms ease,
-              box-shadow 220ms ease;
-          }
-
-          .faq-section .faq-cta:hover {
-            transform: translateY(-2px);
-            border-color: rgba(56, 189, 248, 0.58);
-            box-shadow: 0 14px 26px rgba(2, 6, 23, 0.32);
           }
 
           @media (prefers-reduced-motion: reduce) {

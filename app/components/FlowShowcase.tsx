@@ -14,7 +14,7 @@ type ShowcaseStage = {
     | "ANSWER FAST"
     | "BOOK & REMIND"
     | "QUOTE & CLOSE"
-    | "DELIVER & COLLECT"
+    | "GET PAID"
     | "GROW & REPEAT";
   product: string;
   icon: "users" | "phone" | "calendar" | "file-text" | "credit-card" | "star";
@@ -218,7 +218,7 @@ const STAGES: ShowcaseStage[] = [
     ],
   },
   {
-    name: "DELIVER & COLLECT",
+    name: "GET PAID",
     product: "Payment System",
     icon: "credit-card",
     headline: "Collect faster with invoice automation and payment reminders.",

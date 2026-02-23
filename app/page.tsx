@@ -7,7 +7,6 @@ import { Hero } from "./components/Hero";
 import { HowItWorksSection } from "./components/HowItWorksSection";
 import { IntegrationsSection } from "./components/IntegrationsSection";
 import { OfferSection } from "./components/OfferSection";
-import { PainOutcome } from "./components/PainOutcome";
 import { Pillars } from "./components/Pillars";
 import { TrustBar } from "./components/TrustBar";
 
@@ -15,7 +14,6 @@ export default function Home() {
   return (
     <div className="bg-brand-bg">
       <Hero />
-      <PainOutcome />
       <FlowShowcase />
       <HowItWorksSection />
       <OfferSection />

@@ -3,10 +3,11 @@
 import { scrollToId } from "../lib/scroll";
 import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 
-const HERO_BULLETS = [
-  "Intake + booking built to your dispatch rules",
-  "Automated follow-up + rough estimates that close jobs",
-  "Review + reputation automation after every completed job",
+const CHECKLIST_ITEMS = [
+  "Missed call covered",
+  "Follow-up covered",
+  "On-site quoting covered",
+  "Reviews covered",
 ] as const;
 
 function HeroPhoneAnimation() {
@@ -36,46 +37,31 @@ function HeroPhoneAnimation() {
                   <span className="hero-island-camera" />
                 </div>
 
-                <div className="hero-lock-content">
-                  <p className="hero-lock-time">9:41</p>
-                  <p className="hero-lock-date">Sunday, February 22</p>
-                </div>
-
-                <div className="hero-notification hero-notification-main">
-                  <span className="hero-notif-icon missed">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
+                <div className="hero-checklist">
+                  <p className="hero-checklist-title">Automation Checklist</p>
+                  {CHECKLIST_ITEMS.map((item, index) => (
+                    <div
+                      key={item}
+                      className="hero-checklist-item"
+                      style={{ animationDelay: `${index * 0.7}s` }}
                     >
-                      <path d="M16 2v6h6" />
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.9 19.9 0 0 1-8.66-3.07 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 2.08 4.2 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.63 2.62a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.46-1.24a2 2 0 0 1 2.11-.45c.84.3 1.72.51 2.62.63A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                  </span>
-                  <span className="hero-notif-copy">
-                    <strong>Missed Call</strong>
-                    <small>(555) 014-2239</small>
-                  </span>
-                  <span className="hero-notif-time">just now</span>
+                      <span className="hero-check-icon" aria-hidden="true">
+                        <svg viewBox="0 0 14 14">
+                          <path d="M2 7.5L5.4 11L12 3.4" />
+                        </svg>
+                      </span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="hero-notification hero-notification-sub">
-                  <span className="hero-notif-icon auto" />
-                  <span className="hero-notif-copy">
-                    <strong>Evios</strong>
-                    <small>Auto text sent to lead</small>
-                  </span>
-                </div>
-
-                <p className="hero-swipe-label">Swipe up to open</p>
                 <span className="hero-home-indicator" />
               </div>
             </div>
           </div>
         </div>
 
-        <span className="hero-missed-pill">MISSED</span>
+        <span className="hero-missed-pill">AUTOMATED</span>
       </div>
     </div>
   );
@@ -89,29 +75,15 @@ export function Hero() {
       <div className="section-frame relative grid grid-cols-1 items-center gap-10 md:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="order-1">
           <h1 className="text-balance text-3xl font-bold leading-tight tracking-tight text-brand-text sm:text-4xl lg:text-5xl xl:text-6xl">
-            Stop losing jobs to missed calls.
+            Every gap in your business, automated.
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-brand-muted sm:text-lg">
-            Evios partners with home service contractors to build and integrate
-            custom automation into your existing tools — intake + scheduling,
-            automated follow-up, rough estimates, and review/reputation flows.
-            Live in 1 month. Free for 30 days. If it's not a win, you pay $0.
+            Calls, follow-up, quoting, and reviews all get handled automatically
+            while your team is out running jobs.
           </p>
 
-          <ul className="mt-10 max-w-xl space-y-4 text-left text-sm text-brand-text sm:text-base">
-            {HERO_BULLETS.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-3">
-                <span
-                  aria-hidden="true"
-                  className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-brand-accent"
-                />
-                <span className="font-medium">{bullet}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
+          <div className="mt-9 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -295,107 +267,57 @@ export function Hero() {
           box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8);
         }
 
-        .hero-lock-content {
-          text-align: center;
-          margin-bottom: 18px;
-        }
-
-        .hero-lock-time {
-          margin: 0;
-          font-size: 42px;
-          font-weight: 300;
-          line-height: 1;
-          letter-spacing: -0.04em;
-          color: rgba(248, 250, 252, 0.97);
-        }
-
-        .hero-lock-date {
-          margin: 6px 0 0;
-          font-size: 13px;
-          color: rgba(248, 250, 252, 0.78);
-        }
-
-        .hero-notification {
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          background: rgba(255, 255, 255, 0.08);
-          -webkit-backdrop-filter: blur(16px);
-          backdrop-filter: blur(16px);
+        .hero-checklist {
+          margin: 6px 0 18px;
           display: grid;
-          grid-template-columns: auto 1fr auto;
+          gap: 10px;
+        }
+
+        .hero-checklist-title {
+          margin: 0 0 2px;
+          font-size: 11px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(191, 219, 254, 0.8);
+          font-weight: 700;
+          text-align: center;
+        }
+
+        .hero-checklist-item {
+          border-radius: 13px;
+          border: 1px solid rgba(148, 163, 184, 0.24);
+          background: rgba(15, 23, 42, 0.66);
+          display: flex;
           align-items: center;
-          gap: 9px;
-          padding: 9px 10px;
-          box-shadow: 0 10px 24px rgba(2, 6, 23, 0.2);
-        }
-
-        .hero-notification-main {
-          animation: notifInMain 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-        }
-
-        .hero-notification-sub {
-          margin-top: 8px;
-          grid-template-columns: auto 1fr;
-          animation: notifInSub 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-        }
-
-        .hero-notif-icon {
-          width: 24px;
-          height: 24px;
-          border-radius: 16px;
-          display: grid;
-          place-items: center;
-        }
-
-        .hero-notif-icon.missed {
-          background: rgba(239, 68, 68, 0.22);
-          color: rgba(254, 226, 226, 0.95);
-        }
-
-        .hero-notif-icon.missed svg {
-          width: 13px;
-          height: 13px;
-        }
-
-        .hero-notif-icon.auto {
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          background: #3b82f6;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
-        }
-
-        .hero-notif-copy {
-          min-width: 0;
-          display: grid;
-          gap: 1px;
-        }
-
-        .hero-notif-copy strong {
-          font-size: 13px;
-          line-height: 1.2;
-          color: rgba(248, 250, 252, 0.95);
-        }
-
-        .hero-notif-copy small {
+          gap: 8px;
+          padding: 8px 10px;
           font-size: 12px;
-          color: rgba(248, 250, 252, 0.62);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          color: rgba(226, 232, 240, 0.95);
+          opacity: 0;
+          transform: translateY(5px);
+          animation: checklistIn 2.8s ease-in-out infinite;
         }
 
-        .hero-notif-time {
-          align-self: start;
-          font-size: 11px;
-          color: rgba(248, 250, 252, 0.5);
+        .hero-check-icon {
+          width: 16px;
+          height: 16px;
+          border-radius: 999px;
+          border: 1px solid rgba(74, 222, 128, 0.5);
+          background: rgba(22, 163, 74, 0.18);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
         }
 
-        .hero-swipe-label {
-          margin: 16px 0 8px;
-          text-align: center;
-          font-size: 11px;
-          color: rgba(248, 250, 252, 0.56);
+        .hero-check-icon svg {
+          width: 10px;
+          height: 10px;
+          fill: none;
+          stroke: rgba(74, 222, 128, 0.95);
+          stroke-width: 2.1;
+          stroke-linecap: round;
+          stroke-linejoin: round;
         }
 
         .hero-home-indicator {
@@ -493,29 +415,20 @@ export function Hero() {
           }
         }
 
-        @keyframes notifInMain {
+        @keyframes checklistIn {
           0%,
-          12% {
+          18% {
             opacity: 0;
-            transform: translateY(-12px);
+            transform: translateY(5px);
           }
-          25%,
-          100% {
+          30%,
+          75% {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        @keyframes notifInSub {
-          0%,
-          20% {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          36%,
           100% {
-            opacity: 1;
-            transform: translateY(0);
+            opacity: 0;
+            transform: translateY(-2px);
           }
         }
 
@@ -536,8 +449,7 @@ export function Hero() {
           .hero-phone-float,
           .hero-phone-shell,
           .hero-missed-pill,
-          .hero-notification-main,
-          .hero-notification-sub,
+          .hero-checklist-item,
           .hero-ambient-glow {
             animation: none;
             opacity: 1;
