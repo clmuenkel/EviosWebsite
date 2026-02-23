@@ -1,0 +1,4 @@
+{"runId":"pre-fix","hypothesisId":"H3","location":"ContactSection.tsx:onSubmit:start","message":"Contact submit started","data":{"hasName":true,"hasCompany":true,"hasEmail":true,"hasPhone":true,"software":"ServiceTitan","honeypotLength":0},"timestamp":1771817492645}
+{"runId":"pre-fix","hypothesisId":"H1","location":"ContactSection.tsx:onSubmit:response","message":"Contact submit got response","data":{"status":500,"ok":false},"timestamp":1771817493874}
+{"runId":"pre-fix","hypothesisId":"H3","location":"route.ts:POST:json","message":"Lead API parsed JSON","data":{"hasName":true,"hasCompany":true,"hasEmail":true,"hasPhone":true,"hasSoftware":true,"honeypotLength":0},"timestamp":1771817493813}
+{"runId":"pre-fix","hypothesisId":"H1","location":"route.ts:POST:missing-resend-key","message":"Lead API missing RESEND_API_KEY","data":{"hasLeadsToEmail":true},"timestamp":1771817493827}
