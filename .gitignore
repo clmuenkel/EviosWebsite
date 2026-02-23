@@ -1,10 +1,9 @@
 node_modules/
 .next/
+.open-next/
 out/
 dist/
 .env*
+.dev.vars
 .DS_Store
-node_modules/
-.next/
-.env*
 
