@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BookCta } from "./BookCta";
 
 type DetailBullet = {
   key: string;
@@ -33,40 +32,38 @@ const STAGES: ShowcaseStage[] = [
     product: "Referral Engine",
     icon: "users",
     headline: "Turn completed jobs into new referrals.",
-    problem:
-      "Happy customers forget to tell their friends when referral asks are inconsistent.",
+    problem: "Referrals stay random when asks are manual or forgotten.",
     problemBullets: [
       {
         key: "Current state",
-        detail: "Referrals happen randomly with no trigger or tracking.",
+        detail: "No trigger means referrals happen inconsistently.",
       },
       {
         key: "Leak",
-        detail: "Customer goodwill fades quickly after each completed job.",
+        detail: "Post-job goodwill fades fast without follow-up.",
       },
       {
         key: "Result",
-        detail: "You keep paying for leads that could have come in organically.",
+        detail: "You pay for leads that could be referrals.",
       },
     ],
-    solution:
-      "Automated referral flow runs after every job and tracks outcomes end to end.",
+    solution: "An automated referral flow runs after every completed job.",
     solutionBullets: [
       {
         key: "Trigger",
-        detail: "Job is marked complete and waits 30 days.",
+        detail: "Job marked complete waits 30 days.",
       },
       {
         key: "Action",
-        detail: "Send referral ask with a one-tap share link.",
+        detail: "Send one-tap referral ask.",
       },
       {
         key: "If booked",
-        detail: "Credit payout, notify owner, and log completion automatically.",
+        detail: "Credit payout and alert owner automatically.",
       },
       {
         key: "Stop condition",
-        detail: "Flow closes when referral converts or expires.",
+        detail: "Flow ends after conversion or expiry.",
       },
     ],
     tags: ["Referral Engine", "Marketing Automation"],
@@ -81,24 +78,22 @@ const STAGES: ShowcaseStage[] = [
     product: "AI Receptionist",
     icon: "phone",
     headline: "Answer every call and qualify emergencies instantly.",
-    problem:
-      "Missed calls mean lost jobs, especially when urgent homeowners call first available.",
+    problem: "Missed urgent calls become lost jobs fast.",
     problemBullets: [
       {
         key: "After-hours",
-        detail: "High-margin emergency calls hit voicemail.",
+        detail: "Emergency calls hit voicemail.",
       },
       {
         key: "Delay",
-        detail: "Leads book whichever company responds first.",
+        detail: "Leads book the first responder.",
       },
       {
         key: "Chaos",
-        detail: "No qualification system lets junk calls waste dispatch time.",
+        detail: "Unqualified calls waste dispatch time.",
       },
     ],
-    solution:
-      "AI answers 24/7, qualifies, routes emergencies, and writes outcomes back instantly.",
+    solution: "AI answers, qualifies, routes, and logs outcomes instantly.",
     solutionBullets: [
       {
         key: "Trigger",
@@ -106,15 +101,15 @@ const STAGES: ShowcaseStage[] = [
       },
       {
         key: "Qualify",
-        detail: "Capture issue type, urgency, location, and fit.",
+        detail: "Capture issue, urgency, and location.",
       },
       {
         key: "Route",
-        detail: "Emergency gets priority booking; standard jobs get next slots.",
+        detail: "Emergencies get priority. Standard jobs get next slots.",
       },
       {
         key: "Write-back",
-        detail: "Send outcome to CRM, calendar, and customer SMS.",
+        detail: "Write outcome to CRM, calendar, and SMS.",
       },
     ],
     tags: ["AI Receptionist", "Speed-to-Lead"],
@@ -129,39 +124,38 @@ const STAGES: ShowcaseStage[] = [
     product: "Smart Scheduling",
     icon: "calendar",
     headline: "Reduce no-shows with smart booking and reminder automation.",
-    problem: "Scheduling drift and no-shows burn technician hours and fuel.",
+    problem: "No-shows burn technician hours and fuel.",
     problemBullets: [
       {
         key: "Mismatch",
-        detail: "Customers and team often remember different appointment windows.",
+        detail: "Teams and customers remember different windows.",
       },
       {
         key: "No-shows",
-        detail: "Techs arrive and nobody is available at the property.",
+        detail: "Tech arrives and no one is home.",
       },
       {
         key: "Manual",
-        detail: "Office team spends hours chasing confirmations.",
+        detail: "Office staff chase confirmations manually.",
       },
     ],
-    solution:
-      "Self-booking, reminders, and reschedule workflows prevent avoidable empty trips.",
+    solution: "Self-booking and reminders cut avoidable empty trips.",
     solutionBullets: [
       {
         key: "Trigger",
-        detail: "Booking is created via phone or web.",
+        detail: "Booking created by phone or web.",
       },
       {
         key: "Reminders",
-        detail: "Send 24h, 2h, and on-my-way updates automatically.",
+        detail: "Send 24h, 2h, and on-my-way texts.",
       },
       {
         key: "Reschedule",
-        detail: "Customer texts RESCHEDULE and picks a new slot.",
+        detail: "Customer texts RESCHEDULE to pick a new slot.",
       },
       {
         key: "Fallback",
-        detail: "If no confirmation arrives, AI calls to verify attendance.",
+        detail: "If unconfirmed, AI calls to verify.",
       },
     ],
     tags: ["Online Booking", "Auto-Reminders"],
@@ -176,22 +170,22 @@ const STAGES: ShowcaseStage[] = [
     product: "Quote Follow-Up",
     icon: "file-text",
     headline: "Close more pending quotes with persistent, polite follow-up.",
-    problem: "Quotes die in silence when follow-up depends on manual memory.",
+    problem: "Quotes die when follow-up depends on memory.",
     problemBullets: [
       {
         key: "Reality",
-        detail: "Most contractors stop after one or two touches.",
+        detail: "Most teams stop after one or two touches.",
       },
       {
         key: "No system",
-        detail: "Unstructured follow-up means leads slip away.",
+        detail: "Unstructured follow-up loses leads.",
       },
       {
         key: "Outcome",
-        detail: "Competitors win by simply following up faster.",
+        detail: "Competitors win by following up faster.",
       },
     ],
-    solution: "A clean sequence follows every quote and stops instantly on response.",
+    solution: "A clear sequence follows every quote and stops on response.",
     solutionBullets: [
       {
         key: "Trigger",
@@ -199,15 +193,15 @@ const STAGES: ShowcaseStage[] = [
       },
       {
         key: "Sequence",
-        detail: "Day 2, Day 5, Day 10 with optional extended cadence.",
+        detail: "Day 2, Day 5, Day 10 sequence.",
       },
       {
         key: "Stop condition",
-        detail: "Customer replies yes/no or books directly.",
+        detail: "Stop when customer replies or books.",
       },
       {
         key: "Escalation",
-        detail: "Idle high-value quotes alert owner for live callback.",
+        detail: "Idle high-value quotes alert owner.",
       },
     ],
     tags: ["Quote Follow-Up", "CRM Integration"],
@@ -222,22 +216,22 @@ const STAGES: ShowcaseStage[] = [
     product: "Payment System",
     icon: "credit-card",
     headline: "Collect faster with invoice automation and payment reminders.",
-    problem: "Payment delays create cash-flow stress and manual collection work.",
+    problem: "Payment delays hurt cash flow and increase admin work.",
     problemBullets: [
       {
         key: "Leak",
-        detail: "Invoices are often delayed or forgotten.",
+        detail: "Invoices are delayed or missed.",
       },
       {
         key: "Friction",
-        detail: "No simple pay-now experience at job completion.",
+        detail: "No easy pay-now option at completion.",
       },
       {
         key: "Delay",
-        detail: "Payment terms stretch far beyond expected windows.",
+        detail: "Payments arrive later than expected.",
       },
     ],
-    solution: "Completion triggers invoice, payment link, and timed reminders until paid.",
+    solution: "Completion triggers invoice, payment link, and reminders.",
     solutionBullets: [
       {
         key: "Trigger",
@@ -245,15 +239,15 @@ const STAGES: ShowcaseStage[] = [
       },
       {
         key: "Action",
-        detail: "Generate invoice and deliver tap-to-pay link.",
+        detail: "Send invoice with one-tap payment link.",
       },
       {
         key: "If unpaid",
-        detail: "Run reminder cadence on Day 2, Day 5, and Day 10.",
+        detail: "Run reminder cadence Day 2, 5, 10.",
       },
       {
         key: "Optional",
-        detail: "Offer financing options for larger tickets.",
+        detail: "Offer financing on larger tickets.",
       },
     ],
     tags: ["On-My-Way Texts", "Payment Links"],
@@ -268,22 +262,22 @@ const STAGES: ShowcaseStage[] = [
     product: "Review Booster",
     icon: "star",
     headline: "Grow reputation with smart review routing and recovery loops.",
-    problem: "Reviews rarely happen without prompts, and negative ones hit hardest.",
+    problem: "Reviews rarely happen without prompts.",
     problemBullets: [
       {
         key: "Bias",
-        detail: "Unhappy customers are most likely to leave public reviews.",
+        detail: "Unhappy customers leave public reviews first.",
       },
       {
         key: "Trust",
-        detail: "New customers choose the business with stronger visible proof.",
+        detail: "New customers choose stronger social proof.",
       },
     ],
-    solution: "Private rating first routes happy voices public and unhappy ones to recovery.",
+    solution: "Private rating first routes happy and unhappy paths correctly.",
     solutionBullets: [
       {
         key: "Trigger",
-        detail: "Job completes and waits one to two hours.",
+        detail: "Job completes, then waits one to two hours.",
       },
       {
         key: "If 4-5 stars",
@@ -291,11 +285,11 @@ const STAGES: ShowcaseStage[] = [
       },
       {
         key: "If 1-3 stars",
-        detail: "Capture private feedback and alert owner to recover.",
+        detail: "Capture private feedback and alert owner.",
       },
       {
         key: "Tracking",
-        detail: "Log every request and completion outcome.",
+        detail: "Log each request and outcome.",
       },
     ],
     tags: ["Review Requests", "Retention Campaigns"],
@@ -677,7 +671,7 @@ export function FlowShowcase() {
           </p>
         </div>
 
-        <div className="flow-line mt-10 h-0.5 rounded-full" />
+        <div className="flow-line mt-10 h-[3px] rounded-full" />
 
         <div className="stage-strip mt-8 pb-3">
           <div className="stage-connector-wrap hidden md:block" aria-hidden="true">
@@ -709,15 +703,21 @@ export function FlowShowcase() {
                   onClick={() => setActiveIndex(index)}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className={`stage-node flex h-full min-h-[108px] w-36 flex-col items-center justify-start gap-2 rounded-xl border p-3 text-center sm:w-40 ${
+                  className={`stage-node flex h-full min-h-[116px] w-40 flex-col items-center justify-start gap-2 rounded-2xl border p-3 text-center sm:w-44 ${
                     activeNode
-                      ? "stage-node-active border-brand-accent bg-brand-surface/90 shadow-[0_0_0_1px_rgba(59,130,246,0.45)]"
-                      : "border-white/10 bg-brand-surface hover:-translate-y-1 hover:border-white/20"
+                      ? "stage-node-active border-blue-400/60 bg-gradient-to-b from-blue-500/20 to-blue-600/10 shadow-[0_0_0_1px_rgba(59,130,246,0.45)]"
+                      : "border-white/[0.08] bg-brand-surface hover:scale-[1.04] hover:border-blue-300/30"
                   } ${nearHovered ? "stage-node-near" : ""} ${hoveredIndex === index ? "stage-node-hover" : ""}`}
                   style={{ animationDelay: `${index * 90}ms` }}
                   aria-pressed={activeNode}
                 >
-                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-brand-accent/50 bg-brand-bg text-brand-accent">
+                  <span
+                    className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full border text-brand-accent ${
+                      activeNode
+                        ? "border-blue-300/70 bg-blue-500/30"
+                        : "border-brand-accent/50 bg-brand-bg"
+                    }`}
+                  >
                     <StageIcon icon={stage.icon} />
                   </span>
                   <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-text">
@@ -731,7 +731,7 @@ export function FlowShowcase() {
 
         <div key={active.name} className="stage-fade mt-10">
           <div className="grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
-            <article className="surface-card p-5 sm:p-6">
+            <article className="rounded-2xl bg-white/[0.02] p-5 sm:p-6">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full border border-brand-accent/60 bg-brand-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-accent">
                   {active.name}
@@ -741,7 +741,7 @@ export function FlowShowcase() {
                 </span>
               </div>
 
-              <h3 className="mt-4 text-balance text-xl font-semibold leading-snug text-brand-text">
+              <h3 className="mt-4 text-balance text-2xl font-semibold leading-snug text-brand-text sm:text-[1.75rem]">
                 {active.headline}
               </h3>
 
@@ -800,7 +800,7 @@ export function FlowShowcase() {
               </ul>
             </article>
 
-            <aside className="surface-card p-5 sm:p-6">
+            <aside className="rounded-2xl bg-transparent p-5 sm:p-6">
               <div className="mb-5 flex items-center justify-center">
                 <PhoneStageDemo stage={active} />
               </div>
@@ -808,9 +808,6 @@ export function FlowShowcase() {
           </div>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <BookCta />
-        </div>
       </div>
       <style jsx global>{`
         .stage-fade {
@@ -833,17 +830,17 @@ export function FlowShowcase() {
 
         .stage-connector-line {
           display: block;
-          height: 1px;
+          height: 3px;
           margin: 0 7%;
           border-radius: 999px;
-          background: rgba(59, 130, 246, 0.18);
+          background: rgba(59, 130, 246, 0.22);
         }
 
         .stage-connector-segment {
           position: absolute;
           top: 50%;
           width: 18%;
-          height: 2px;
+          height: 3px;
           border-radius: 999px;
           transform: translate(-50%, -50%);
           background: rgba(59, 130, 246, 0.14);
@@ -908,6 +905,7 @@ export function FlowShowcase() {
         .solution-card {
           position: relative;
           overflow: hidden;
+          border-color: rgba(255, 255, 255, 0.08);
         }
 
         .problem-card::after,

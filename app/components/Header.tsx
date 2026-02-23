@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 import { scrollToId } from "../lib/scroll";
@@ -109,9 +110,16 @@ export function Header() {
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-xl font-bold uppercase tracking-[0.18em] text-brand-text"
+          className="flex items-center"
         >
-          evios
+          <Image
+            src="/evios-logo-header.png"
+            alt="Evios"
+            width={100}
+            height={32}
+            className="h-8 w-auto mix-blend-screen"
+            priority
+          />
         </button>
 
         <nav className="hidden items-center gap-8 md:flex">

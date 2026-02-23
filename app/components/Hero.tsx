@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { scrollToId } from "../lib/scroll";
 import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 
@@ -11,15 +12,26 @@ const CHECKLIST_ITEMS = [
 ] as const;
 
 function HeroPhoneAnimation() {
+  const [visibleCount, setVisibleCount] = useState(0);
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    CHECKLIST_ITEMS.forEach((_, i) => {
+      timers.push(setTimeout(() => setVisibleCount(i + 1), (i + 1) * 1500));
+    });
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
   return (
     <div
       aria-hidden="true"
       className="hero-phone-wrap mx-auto w-full max-w-[290px] sm:max-w-[340px] md:ml-auto"
     >
       <div className="hero-phone-scene">
-        <span className="hero-ring-wave hero-ring-wave-1" />
-        <span className="hero-ring-wave hero-ring-wave-2" />
-        <span className="hero-ring-wave hero-ring-wave-3" />
         <span className="hero-ambient-glow" />
 
         <div className="hero-phone-perspective">
@@ -42,8 +54,7 @@ function HeroPhoneAnimation() {
                   {CHECKLIST_ITEMS.map((item, index) => (
                     <div
                       key={item}
-                      className="hero-checklist-item"
-                      style={{ animationDelay: `${index * 0.7}s` }}
+                      className={`hero-checklist-item${index < visibleCount ? " is-visible" : ""}`}
                     >
                       <span className="hero-check-icon" aria-hidden="true">
                         <svg viewBox="0 0 14 14">
@@ -60,8 +71,6 @@ function HeroPhoneAnimation() {
             </div>
           </div>
         </div>
-
-        <span className="hero-missed-pill">AUTOMATED</span>
       </div>
     </div>
   );
@@ -79,8 +88,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-brand-muted sm:text-lg">
-            Calls, follow-up, quoting, and reviews all get handled automatically
-            while your team is out running jobs.
+            Calls, follow-up, quoting, and reviews run automatically while your team is in the field.
           </p>
 
           <div className="mt-9 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
@@ -120,31 +128,12 @@ export function Hero() {
           aspect-ratio: 1 / 1.15;
         }
 
-        .hero-ring-wave {
-          position: absolute;
-          inset: 6%;
-          border-radius: 999px;
-          border: 1px solid rgba(59, 130, 246, 0.24);
-          transform: scale(0.72);
-          opacity: 0;
-          animation: ringPulse 2.4s ease-out infinite;
-          pointer-events: none;
-        }
-
-        .hero-ring-wave-2 {
-          animation-delay: 0.25s;
-        }
-
-        .hero-ring-wave-3 {
-          animation-delay: 0.5s;
-        }
-
         .hero-ambient-glow {
           position: absolute;
-          inset: 28% 18% 14%;
+          inset: 30% 18% 15%;
           border-radius: 999px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.32), rgba(59, 130, 246, 0));
-          filter: blur(24px);
+          background: radial-gradient(circle, rgba(59, 130, 246, 0.26), rgba(59, 130, 246, 0));
+          filter: blur(22px);
           animation: ambientPulse 8s ease-in-out infinite;
           pointer-events: none;
         }
@@ -168,14 +157,14 @@ export function Hero() {
           border-radius: 44px;
           padding: 6px;
           background:
-            linear-gradient(165deg, #2f3544 0%, #1a2233 45%, #0f1320 100%),
-            linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
-          border: 1px solid rgba(255, 255, 255, 0.12);
+            linear-gradient(165deg, #30394a 0%, #1d2738 45%, #11192a 100%),
+            linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+          border: 1px solid rgba(255, 255, 255, 0.08);
           box-shadow:
-            0 20px 40px rgba(2, 6, 23, 0.45),
-            0 42px 90px rgba(2, 6, 23, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.24);
-          animation: phoneTilt 6s ease-in-out infinite, phoneShake 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+            0 14px 28px rgba(2, 6, 23, 0.36),
+            0 30px 56px rgba(2, 6, 23, 0.26),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+          animation: phoneTilt 6s ease-in-out infinite;
           transform-origin: center center;
           overflow: visible;
         }
@@ -228,6 +217,8 @@ export function Hero() {
           position: relative;
           overflow: hidden;
           min-height: 510px;
+          display: flex;
+          flex-direction: column;
         }
 
         .hero-screen-reflection {
@@ -268,14 +259,16 @@ export function Hero() {
         }
 
         .hero-checklist {
-          margin: 6px 0 18px;
+          margin: 8px 0 14px;
           display: grid;
-          gap: 10px;
+          gap: 14px;
+          flex: 1;
+          align-content: center;
         }
 
         .hero-checklist-title {
-          margin: 0 0 2px;
-          font-size: 11px;
+          margin: 0 0 6px;
+          font-size: 12px;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: rgba(191, 219, 254, 0.8);
@@ -284,35 +277,53 @@ export function Hero() {
         }
 
         .hero-checklist-item {
-          border-radius: 13px;
+          border-radius: 16px;
           border: 1px solid rgba(148, 163, 184, 0.24);
           background: rgba(15, 23, 42, 0.66);
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 8px 10px;
-          font-size: 12px;
+          gap: 10px;
+          padding: 14px 14px;
+          font-size: 14px;
+          font-weight: 600;
           color: rgba(226, 232, 240, 0.95);
           opacity: 0;
-          transform: translateY(5px);
-          animation: checklistIn 2.8s ease-in-out infinite;
+          transform: translateY(8px) scale(0.98);
+          transition:
+            opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+            transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 600ms ease,
+            background-color 600ms ease;
+        }
+
+        .hero-checklist-item.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          border-color: rgba(74, 222, 128, 0.35);
+          background: rgba(10, 25, 14, 0.58);
         }
 
         .hero-check-icon {
-          width: 16px;
-          height: 16px;
+          width: 22px;
+          height: 22px;
           border-radius: 999px;
-          border: 1px solid rgba(74, 222, 128, 0.5);
-          background: rgba(22, 163, 74, 0.18);
+          border: 1px solid rgba(74, 222, 128, 0.35);
+          background: rgba(22, 163, 74, 0.12);
           display: inline-flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          transition: all 400ms ease;
+        }
+
+        .hero-checklist-item.is-visible .hero-check-icon {
+          border-color: rgba(74, 222, 128, 0.65);
+          background: rgba(22, 163, 74, 0.24);
         }
 
         .hero-check-icon svg {
-          width: 10px;
-          height: 10px;
+          width: 13px;
+          height: 13px;
           fill: none;
           stroke: rgba(74, 222, 128, 0.95);
           stroke-width: 2.1;
@@ -329,36 +340,6 @@ export function Hero() {
           background: rgba(248, 250, 252, 0.7);
         }
 
-        .hero-missed-pill {
-          position: absolute;
-          top: 5%;
-          right: 3%;
-          z-index: 6;
-          border-radius: 999px;
-          border: 1px solid rgba(248, 113, 113, 0.48);
-          background: rgba(239, 68, 68, 0.24);
-          color: #fee2e2;
-          padding: 4px 10px;
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          animation: badgePulse 2.4s ease-in-out infinite;
-        }
-
-        @keyframes ringPulse {
-          0% {
-            transform: scale(0.72);
-            opacity: 0;
-          }
-          20% {
-            opacity: 0.45;
-          }
-          100% {
-            transform: scale(1.34);
-            opacity: 0;
-          }
-        }
 
         @keyframes ambientPulse {
           0%,
@@ -380,29 +361,6 @@ export function Hero() {
           }
         }
 
-        @keyframes phoneShake {
-          0%,
-          70%,
-          100% {
-            transform: rotate(0deg);
-          }
-          74% {
-            transform: rotate(-2.8deg) translateX(-1px);
-          }
-          78% {
-            transform: rotate(2.6deg) translateX(1px);
-          }
-          82% {
-            transform: rotate(-2.1deg) translateX(-1px);
-          }
-          86% {
-            transform: rotate(1.8deg) translateX(1px);
-          }
-          90% {
-            transform: rotate(-1.2deg);
-          }
-        }
-
         @keyframes phoneTilt {
           0% {
             transform: rotateX(2deg) rotateY(-3deg);
@@ -415,41 +373,9 @@ export function Hero() {
           }
         }
 
-        @keyframes checklistIn {
-          0%,
-          18% {
-            opacity: 0;
-            transform: translateY(5px);
-          }
-          30%,
-          75% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-2px);
-          }
-        }
-
-        @keyframes badgePulse {
-          0%,
-          100% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.42);
-          }
-          50% {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
-          }
-        }
-
         @media (prefers-reduced-motion: reduce) {
-          .hero-ring-wave,
           .hero-phone-float,
           .hero-phone-shell,
-          .hero-missed-pill,
-          .hero-checklist-item,
           .hero-ambient-glow {
             animation: none;
             opacity: 1;

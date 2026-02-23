@@ -1,43 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, type CSSProperties, type ChangeEvent } from "react";
 
-type DemoIcon = "leak" | "quote" | "afterHours";
-
-type DemoItem = {
-  title: string;
-  situation: string;
-  audioSrc: string;
-  icon: DemoIcon;
-  outcomes: [string, string, string];
+const DEMO = {
+  title: "After-Hours Missed",
+  situation:
+    "11 PM missed call. No voicemail. Most home service teams lose this job. Not you.",
+  audioSrc: "/demo/after-hours-missed-call.mp3",
+  outcomes: ["Instant text-back", "Slot selected", "Booking confirmed"] as const,
 };
-
-const DEMO_ITEMS: DemoItem[] = [
-  {
-    title: "After-Hours Missed",
-    situation:
-      "11 PM missed call. No voicemail. Most home service teams lose this job. Not you.",
-    audioSrc: "/demo/after-hours-missed-call.mp3",
-    icon: "afterHours",
-    outcomes: ["Instant text-back", "Slot selected", "Booking confirmed"],
-  },
-  {
-    title: "Emergency Leak",
-    situation:
-      "Kitchen pipe burst. Water spreading fast. The homeowner calls in a panic at 9 PM.",
-    audioSrc: "/demo/emergency-leak.mp3",
-    icon: "leak",
-    outcomes: ["Triage complete", "Tech dispatched", "Confirmation sent"],
-  },
-  {
-    title: "Quote Request",
-    situation:
-      "Homeowner wants a replacement quote. Needs it before the weekend.",
-    audioSrc: "/demo/water-heater-quote.mp3",
-    icon: "quote",
-    outcomes: ["Qualified lead", "Quote visit booked", "Details texted"],
-  },
-];
 
 function formatTime(seconds: number): string {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
@@ -46,36 +17,7 @@ function formatTime(seconds: number): string {
   return `${mins}:${String(secs).padStart(2, "0")}`;
 }
 
-function DemoScene({ icon }: { icon: DemoIcon }) {
-  if (icon === "leak") {
-    return (
-      <svg viewBox="0 0 280 220" className="demo-scene-svg" aria-hidden="true">
-        <rect x="36" y="52" width="208" height="132" rx="16" className="scene-card" />
-        <path d="M136 84 C124 102 122 112 136 122 C150 112 148 102 136 84 Z" className="leak-drop" />
-        <circle cx="136" cy="138" r="14" className="leak-ripple leak-ripple-1" />
-        <rect x="84" y="98" width="44" height="72" rx="10" className="scene-phone" />
-      </svg>
-    );
-  }
-
-  if (icon === "quote") {
-    return (
-      <svg viewBox="0 0 280 220" className="demo-scene-svg" aria-hidden="true">
-        <rect x="40" y="48" width="200" height="136" rx="16" className="scene-card" />
-        <rect x="72" y="74" width="92" height="120" rx="10" className="quote-sheet" />
-        <line x1="84" y1="102" x2="150" y2="102" className="quote-line" />
-        <line x1="84" y1="118" x2="150" y2="118" className="quote-line" />
-        <line x1="84" y1="134" x2="130" y2="134" className="quote-line" />
-        <text x="116" y="92" className="quote-dollar">
-          $
-        </text>
-        <rect x="170" y="84" width="56" height="44" rx="8" className="quote-calendar" />
-        <line x1="170" y1="98" x2="226" y2="98" className="quote-line" />
-        <path d="M180 146 L194 160 L218 136" className="quote-check" />
-      </svg>
-    );
-  }
-
+function DemoScene() {
   return (
     <svg viewBox="0 0 280 220" className="demo-scene-svg" aria-hidden="true">
       <rect x="36" y="52" width="208" height="132" rx="16" className="scene-card" />
@@ -95,18 +37,10 @@ function DemoScene({ icon }: { icon: DemoIcon }) {
 }
 
 export function DemoSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const activeItem = DEMO_ITEMS[activeIndex];
-
-  useEffect(() => {
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
-  }, [activeIndex]);
 
   const togglePlayback = () => {
     const audio = audioRef.current;
@@ -131,54 +65,33 @@ export function DemoSection() {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <section id="demo" className="section-block section-divider demo-showcase">
+    <section id="demo" className="section-block-tight section-divider demo-showcase">
       <div className="section-frame">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
           Hear It In Action
         </p>
-        <h2 className="section-heading mt-4">
-          Real scenarios. Real results. Press play.
-        </h2>
+        <h2 className="section-heading mt-4">Real scenario. Real result. Press play.</h2>
 
-        <div className="demo-tab-row mt-8">
-          {DEMO_ITEMS.map((item, index) => (
-            <button
-              key={item.title}
-              type="button"
-              className={`demo-tab ${index === activeIndex ? "is-active" : ""}`}
-              onClick={() => setActiveIndex(index)}
-              aria-pressed={index === activeIndex}
-            >
-              {item.title}
-            </button>
-          ))}
-        </div>
-
-        <article key={activeItem.title} className="demo-hero surface-card mt-6 p-5 sm:p-6">
+        <article className="demo-hero surface-card mt-8 p-5 sm:p-6">
           <div className="demo-hero-grid">
             <div className="demo-scene-wrap">
-              <DemoScene icon={activeItem.icon} />
+              <DemoScene />
             </div>
 
             <div className="demo-content">
               <p className="demo-kicker">Situation</p>
-              <h3 className="text-xl font-semibold text-brand-text">{activeItem.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-brand-muted">
-                {activeItem.situation}
-              </p>
+              <h3 className="text-xl font-semibold text-brand-text">{DEMO.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-brand-muted">{DEMO.situation}</p>
 
               <div className="demo-player mt-5">
                 <audio
-                  key={activeItem.audioSrc}
                   ref={audioRef}
                   preload="metadata"
-                  onLoadedMetadata={(event) =>
-                    setDuration(event.currentTarget.duration || 0)
-                  }
+                  onLoadedMetadata={(event) => setDuration(event.currentTarget.duration || 0)}
                   onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
                   onEnded={() => setIsPlaying(false)}
                 >
-                  <source src={activeItem.audioSrc} type="audio/mpeg" />
+                  <source src={DEMO.audioSrc} type="audio/mpeg" />
                 </audio>
 
                 <button
@@ -200,9 +113,7 @@ export function DemoSection() {
                 </button>
 
                 <div className="player-track-wrap">
-                  <p className="player-label">
-                    {isPlaying ? "Playing demo call" : "Play demo call"}
-                  </p>
+                  <p className="player-label">{isPlaying ? "Playing demo call" : "Play demo call"}</p>
                   <div className="player-track-fill" style={{ width: `${progress}%` }} />
                   <input
                     type="range"
@@ -222,11 +133,11 @@ export function DemoSection() {
               </div>
 
               <div className="demo-outcomes mt-5">
-                {activeItem.outcomes.map((outcome, index) => (
+                {DEMO.outcomes.map((outcome, index) => (
                   <div
                     key={outcome}
                     className="outcome-chip"
-                    style={{ "--chip-delay": `${index * 130}ms` } as React.CSSProperties}
+                    style={{ "--chip-delay": `${index * 130}ms` } as CSSProperties}
                   >
                     <span className="outcome-check" aria-hidden="true">
                       <svg viewBox="0 0 14 14">
@@ -243,31 +154,6 @@ export function DemoSection() {
       </div>
 
       <style jsx global>{`
-        .demo-showcase .demo-tab-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .demo-showcase .demo-tab {
-          border-radius: 999px;
-          border: 1px solid rgba(148, 163, 184, 0.22);
-          background: rgba(15, 23, 42, 0.6);
-          color: rgba(226, 232, 240, 0.78);
-          padding: 9px 14px;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          transition: all 220ms ease;
-        }
-
-        .demo-showcase .demo-tab.is-active {
-          border-color: rgba(56, 189, 248, 0.5);
-          color: #e2e8f0;
-          box-shadow: inset 0 -2px 0 rgba(56, 189, 248, 0.9);
-        }
-
         .demo-showcase .demo-hero {
           animation: demoHeroIn 320ms ease-out;
         }
@@ -280,10 +166,9 @@ export function DemoSection() {
 
         .demo-showcase .demo-scene-wrap {
           border-radius: 14px;
-          border: 1px solid rgba(148, 163, 184, 0.2);
           background:
-            radial-gradient(circle at 20% 12%, rgba(14, 165, 233, 0.16), transparent 44%),
-            linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 15, 30, 0.75) 100%);
+            radial-gradient(circle at 20% 12%, rgba(14, 165, 233, 0.12), transparent 44%),
+            linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(10, 15, 30, 0.68) 100%);
           padding: 10px;
           min-height: 220px;
           display: flex;
@@ -307,53 +192,8 @@ export function DemoSection() {
           stroke: rgba(148, 163, 184, 0.55);
         }
 
-        .demo-showcase .leak-drop {
-          fill: rgba(56, 189, 248, 0.95);
-          animation: leakDrop 1.8s ease-in-out infinite;
-          transform-origin: 136px 84px;
-        }
-
-        .demo-showcase .leak-ripple {
-          fill: none;
-          stroke: rgba(56, 189, 248, 0.7);
-          stroke-width: 2;
-          transform-origin: 136px 138px;
-          animation: leakRipple 1.8s ease-out infinite;
-        }
-
-        .demo-showcase .quote-sheet,
-        .demo-showcase .quote-calendar {
-          fill: rgba(15, 23, 42, 0.72);
-          stroke: rgba(148, 163, 184, 0.5);
-        }
-
-        .demo-showcase .quote-line {
-          stroke: rgba(148, 163, 184, 0.7);
-          stroke-width: 2;
-          stroke-linecap: round;
-        }
-
-        .demo-showcase .quote-dollar {
-          fill: rgba(56, 189, 248, 0.95);
-          font-size: 18px;
-          font-weight: 700;
-          text-anchor: middle;
-        }
-
-        .demo-showcase .quote-check {
-          fill: none;
-          stroke: rgba(74, 222, 128, 0.9);
-          stroke-width: 3;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-dasharray: 48;
-          stroke-dashoffset: 48;
-          animation: quoteCheck 1.5s ease-out infinite;
-        }
-
         .demo-showcase .night-moon {
           fill: rgba(253, 224, 71, 0.9);
-          animation: moonGlow 1.9s ease-in-out infinite;
         }
 
         .demo-showcase .night-cutout {
@@ -362,22 +202,12 @@ export function DemoSection() {
 
         .demo-showcase .night-star {
           fill: rgba(191, 219, 254, 0.9);
-          animation: starBlink 1.7s ease-in-out infinite;
-        }
-
-        .demo-showcase .night-star.star-2 {
-          animation-delay: 0.35s;
-        }
-
-        .demo-showcase .night-star.star-3 {
-          animation-delay: 0.7s;
         }
 
         .demo-showcase .night-missed {
           stroke: rgba(248, 113, 113, 0.95);
           stroke-width: 2.5;
           stroke-linecap: round;
-          animation: missedBlink 1.5s ease-in-out infinite;
         }
 
         .demo-showcase .night-bubble {
@@ -387,15 +217,6 @@ export function DemoSection() {
 
         .demo-showcase .typing-dot {
           fill: rgba(125, 211, 252, 0.9);
-          animation: typingDots 1.1s ease-in-out infinite;
-        }
-
-        .demo-showcase .typing-dot.dot-2 {
-          animation-delay: 0.2s;
-        }
-
-        .demo-showcase .typing-dot.dot-3 {
-          animation-delay: 0.4s;
         }
 
         .demo-showcase .demo-kicker {
@@ -428,7 +249,6 @@ export function DemoSection() {
             0 0 0 1px rgba(224, 242, 254, 0.24) inset,
             0 0 20px rgba(56, 189, 248, 0.38),
             0 12px 20px rgba(2, 6, 23, 0.34);
-          animation: playerPulse 1.8s ease-in-out infinite;
           transition:
             transform 180ms ease,
             box-shadow 180ms ease;
@@ -550,6 +370,11 @@ export function DemoSection() {
           transform: translateY(6px);
           animation: chipIn 350ms ease-out forwards;
           animation-delay: var(--chip-delay, 0ms);
+          transition: transform 180ms ease;
+        }
+
+        .demo-showcase .outcome-chip:hover {
+          transform: scale(1.02);
         }
 
         .demo-showcase .outcome-check {
@@ -597,97 +422,6 @@ export function DemoSection() {
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-
-        @keyframes playerPulse {
-          0%,
-          100% {
-            box-shadow:
-              0 0 0 1px rgba(224, 242, 254, 0.24) inset,
-              0 0 20px rgba(56, 189, 248, 0.38),
-              0 12px 20px rgba(2, 6, 23, 0.34);
-          }
-          50% {
-            box-shadow:
-              0 0 0 1px rgba(224, 242, 254, 0.28) inset,
-              0 0 26px rgba(56, 189, 248, 0.55),
-              0 14px 22px rgba(2, 6, 23, 0.38);
-          }
-        }
-
-        @keyframes leakDrop {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(6px);
-          }
-        }
-
-        @keyframes leakRipple {
-          0% {
-            opacity: 0.8;
-            transform: scale(0.5);
-          }
-          100% {
-            opacity: 0;
-            transform: scale(1.25);
-          }
-        }
-
-        @keyframes quoteCheck {
-          0% {
-            stroke-dashoffset: 48;
-          }
-          35% {
-            stroke-dashoffset: 48;
-          }
-          100% {
-            stroke-dashoffset: 0;
-          }
-        }
-
-        @keyframes moonGlow {
-          0%,
-          100% {
-            opacity: 0.8;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes starBlink {
-          0%,
-          100% {
-            opacity: 0.4;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes missedBlink {
-          0%,
-          100% {
-            opacity: 0.45;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes typingDots {
-          0%,
-          100% {
-            opacity: 0.35;
-            transform: translateY(0);
-          }
-          50% {
-            opacity: 1;
-            transform: translateY(-2px);
           }
         }
 

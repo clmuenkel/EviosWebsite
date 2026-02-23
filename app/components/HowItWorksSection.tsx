@@ -13,41 +13,39 @@ const LIVE_STEPS: LiveStep[] = [
   {
     title: "Discovery Session",
     badge: "FREE",
-    summary: "We learn your operation inside out - free, no obligation.",
+    summary: "We map your workflow and find the biggest revenue leaks.",
     bullets: [
-      "Walk us through every step of how jobs come in and get closed",
-      "We pinpoint where revenue is leaking and rank fixes by impact",
-      "You leave with a clear picture of what gets built - before a line of code is written",
-      "Backed by data from home service contractors we have already helped",
+      <>
+        <b className="text-brand-text">Walk us through how jobs come in</b> and how they close
+      </>,
+      "We rank fixes by speed, value, and ease",
+      "You see what gets built before we write code",
+      "Built from patterns proven in home service teams",
     ],
   },
   {
     title: "We Build It",
     badge: "FREE",
-    summary:
-      "We build exactly what we scoped. You test every piece as it comes together.",
+    summary: "You approve the plan, then we build around your live workflow.",
     bullets: [
-      "No surprises - you approved the spec before we started",
-      "Regular check-ins; you test in real conditions with your real data",
-      "Plugs into ServiceTitan, Jobber, Housecall Pro, or whatever you run",
+      "No surprises because scope is approved first",
+      "You test with real calls, jobs, and data",
+      "Integrates with ServiceTitan, Jobber, Housecall Pro, or your stack",
       <>
-        You know <b className="text-brand-text">100% what you are paying for</b>{" "}
-        before you pay a penny
+        You know <b className="text-brand-text">exactly what you are paying for</b> before paying anything
       </>,
     ],
   },
   {
     title: "Go Live",
-    summary: "Results from day one. If it is not a win, you owe nothing.",
+    summary: "Your system goes live. If it fails, you pay nothing.",
     bullets: [
       <>
-        <b className="text-brand-text">
-          Immediate results - no ramp-up, no waiting period
-        </b>
+        <b className="text-brand-text">Immediate results with no long ramp-up</b>
       </>,
-      "Your workflow stays the same; the system runs in the background",
-      "We host and maintain it - zero tech headaches",
-      "Ongoing support included for the life of the engagement",
+      "Your team keeps its workflow while automation runs underneath",
+      "We host and maintain everything for you",
+      "Support stays included after launch",
     ],
   },
 ] as const;
@@ -152,12 +150,10 @@ export function HowItWorksSection() {
           Not the usual agency playbook
         </p>
         <h2 className="section-heading mt-4">
-          Live in 1 month - or you do not pay a dime.
+          See it work before you spend a cent.
         </h2>
         <p className="section-copy max-w-3xl">
-          Most vendors sell you a contract before you have seen a thing. We flip
-          that. You see exactly what we build, test it yourself, and only pay
-          when you love it.
+          No contracts upfront. We build it, you test it, and you only pay when it proves itself.
         </p>
 
         <div className="timeline-shell mt-10">
@@ -213,7 +209,7 @@ export function HowItWorksSection() {
             <p className="mt-3 text-sm leading-relaxed text-brand-muted">
               {active.summary}
             </p>
-            <ul className="timeline-panel-list mt-4 space-y-3 rounded-md border border-white/10 bg-brand-bg px-5 py-4 text-sm leading-relaxed text-brand-muted">
+            <ul className="timeline-panel-list mt-4 space-y-3 px-1 py-2 text-sm leading-relaxed text-brand-muted">
               {active.bullets.map((bullet, bulletIndex) => (
                 <li
                   key={`${active.title}-${bulletIndex}`}
@@ -248,10 +244,10 @@ export function HowItWorksSection() {
           .how-timeline .timeline-line,
           .how-timeline .timeline-progress {
             position: absolute;
-            left: 19px;
-            top: 26px;
+            left: 23px;
+            top: 30px;
             width: 2px;
-            height: calc(100% - 52px);
+            height: calc(100% - 60px);
             border-radius: 999px;
             pointer-events: none;
           }
@@ -285,15 +281,15 @@ export function HowItWorksSection() {
             width: 100%;
             text-align: left;
             display: grid;
-            grid-template-columns: 40px minmax(0, 1fr);
+            grid-template-columns: 48px minmax(0, 1fr);
             align-items: center;
             gap: 14px;
             cursor: pointer;
           }
 
           .how-timeline .timeline-node-dot {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 999px;
             border: 1px solid rgba(148, 163, 184, 0.4);
             background: rgba(15, 23, 42, 0.82);
@@ -365,11 +361,12 @@ export function HowItWorksSection() {
 
           .how-timeline .timeline-node-wrap.is-active .timeline-node-dot,
           .how-timeline .timeline-node:hover .timeline-node-dot {
-            border-color: rgba(59, 130, 246, 0.7);
+            border-color: rgba(96, 165, 250, 0.75);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.32));
             box-shadow:
-              0 0 0 1px rgba(59, 130, 246, 0.42),
-              0 0 20px rgba(59, 130, 246, 0.36);
-            transform: translateY(-1px);
+              0 0 0 1px rgba(59, 130, 246, 0.48),
+              0 0 28px rgba(59, 130, 246, 0.45);
+            transform: translateY(-1px) scale(1.08);
           }
 
           .how-timeline .timeline-node-wrap.is-active .timeline-node-label {
@@ -387,6 +384,7 @@ export function HowItWorksSection() {
 
           .how-timeline .timeline-panel {
             animation: timelinePanelIn 320ms ease-out;
+            border-top: 2px solid rgba(56, 189, 248, 0.5);
           }
 
           .how-timeline .timeline-panel-list {
@@ -475,7 +473,7 @@ export function HowItWorksSection() {
             .how-timeline .timeline-progress {
               left: 10%;
               width: 80%;
-              top: 19px;
+              top: 24px;
               height: 2px;
             }
 

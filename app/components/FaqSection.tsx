@@ -49,7 +49,7 @@ export function FaqSection() {
   const [openMap, setOpenMap] = useState<Record<number, boolean>>({ 0: true });
 
   return (
-    <section id="faq" className="faq-section section-block section-divider">
+    <section id="faq" className="faq-section section-block-tight section-divider">
       <div className="section-frame">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
           Common Questions
@@ -105,7 +105,7 @@ export function FaqSection() {
             overflow: hidden;
             border-color: rgba(148, 163, 184, 0.26);
             transition:
-              transform 220ms ease,
+              background-color 220ms ease,
               border-color 220ms ease,
               box-shadow 220ms ease;
           }
@@ -113,21 +113,24 @@ export function FaqSection() {
           .faq-section .faq-item::before {
             content: "";
             position: absolute;
-            inset: -1px;
-            border-radius: 16px;
-            border: 1px solid rgba(56, 189, 248, 0);
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+            opacity: 0;
             pointer-events: none;
-            transition: border-color 220ms ease;
+            transition: opacity 220ms ease;
           }
 
           .faq-section .faq-item:hover {
-            transform: translateY(-2px);
-            border-color: rgba(56, 189, 248, 0.34);
-            box-shadow: 0 12px 24px rgba(2, 6, 23, 0.28);
+            border-color: rgba(56, 189, 248, 0.26);
+            background: rgba(56, 189, 248, 0.06);
+            box-shadow: 0 10px 18px rgba(2, 6, 23, 0.22);
           }
 
           .faq-section .faq-item.is-open::before {
-            border-color: rgba(56, 189, 248, 0.45);
+            opacity: 1;
           }
 
           .faq-section .faq-trigger {

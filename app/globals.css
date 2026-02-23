@@ -50,11 +50,15 @@ a {
 
 @layer components {
   .section-block {
-    @apply px-6 py-20 sm:px-10 sm:py-24 lg:py-28;
+    @apply px-6 py-24 sm:px-10 sm:py-28 lg:py-36;
+  }
+
+  .section-block-tight {
+    @apply px-6 py-14 sm:px-10 sm:py-16 lg:py-20;
   }
 
   .section-divider {
-    @apply border-b border-white/10;
+    @apply border-b border-transparent;
   }
 
   .section-frame {
@@ -62,7 +66,7 @@ a {
   }
 
   .section-heading {
-    @apply text-balance text-2xl font-semibold leading-[1.2] text-brand-text sm:text-3xl lg:text-4xl;
+    @apply text-balance text-3xl font-semibold leading-[1.15] text-brand-text sm:text-4xl lg:text-5xl;
   }
 
   .section-copy {
@@ -70,7 +74,13 @@ a {
   }
 
   .surface-card {
-    @apply border border-white/10 bg-brand-surface shadow-sm;
+    @apply border border-white/[0.06] bg-brand-surface shadow-sm;
+    border-radius: var(--radius-card);
+  }
+
+  .surface-card-flush {
+    @apply border-transparent shadow-none;
+    background: transparent;
     border-radius: var(--radius-card);
   }
 

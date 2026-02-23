@@ -75,7 +75,7 @@ export function IntegrationsSection() {
     <section
       ref={rootRef}
       id="integrations"
-      className="integrations-showcase section-block section-divider"
+      className="integrations-showcase section-block-tight section-divider"
       data-visible={isVisible}
     >
       <div className="section-frame">
@@ -173,7 +173,7 @@ export function IntegrationsSection() {
         .integrations-showcase .integration-grid {
           position: relative;
           display: grid;
-          gap: 12px;
+          gap: 10px;
           grid-template-columns: 1fr;
           z-index: 2;
         }
@@ -197,8 +197,8 @@ export function IntegrationsSection() {
           animation-delay: 80ms;
           border-color: rgba(56, 189, 248, 0.32);
           background:
-            radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.14), transparent 58%),
-            rgba(15, 23, 42, 0.76);
+            radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.3), transparent 58%),
+            rgba(15, 23, 42, 0.78);
           backdrop-filter: blur(10px);
         }
 
@@ -206,9 +206,9 @@ export function IntegrationsSection() {
           position: absolute;
           inset: -30% 16%;
           border-radius: 999px;
-          background: radial-gradient(circle, rgba(56, 189, 248, 0.3), rgba(56, 189, 248, 0));
+          background: radial-gradient(circle, rgba(56, 189, 248, 0.45), rgba(56, 189, 248, 0));
           filter: blur(14px);
-          animation: hubPulse 2.4s ease-in-out infinite;
+          animation: hubPulse 3.2s ease-in-out infinite;
           pointer-events: none;
         }
 
@@ -255,41 +255,20 @@ export function IntegrationsSection() {
           cursor: pointer;
         }
 
-        .integrations-showcase .integration-node::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: -38%;
-          width: 34%;
-          transform: skewX(-16deg);
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 0.16),
-            rgba(255, 255, 255, 0)
-          );
-          opacity: 0;
-          pointer-events: none;
-        }
-
         .integrations-showcase .integration-node:hover {
-          transform: translateY(-3px);
+          transform: translateY(-2px);
           border-color: rgba(56, 189, 248, 0.45);
-          box-shadow: 0 14px 28px rgba(2, 6, 23, 0.34);
+          background: rgba(56, 189, 248, 0.12);
+          box-shadow: 0 12px 22px rgba(2, 6, 23, 0.3);
         }
 
         .integrations-showcase .integration-node:focus-visible {
           outline: none;
-          transform: translateY(-3px);
+          transform: translateY(-2px);
           border-color: rgba(56, 189, 248, 0.45);
           box-shadow:
             0 0 0 1px rgba(56, 189, 248, 0.45),
-            0 14px 28px rgba(2, 6, 23, 0.34);
-        }
-
-        .integrations-showcase .integration-node:hover::before {
-          animation: integrationFlash 580ms ease-out 1;
+            0 12px 22px rgba(2, 6, 23, 0.3);
         }
 
         .integrations-showcase .logo-spot {
@@ -351,8 +330,8 @@ export function IntegrationsSection() {
           .integrations-showcase .integration-grid {
             grid-template-columns: repeat(5, minmax(0, 1fr));
             grid-template-rows: auto auto auto;
-            gap: 14px;
-            min-height: 460px;
+            gap: 12px;
+            min-height: 420px;
           }
 
           .integrations-showcase .integration-hub {
@@ -453,20 +432,6 @@ export function IntegrationsSection() {
           50% {
             opacity: 0.85;
             transform: scale(1.04);
-          }
-        }
-
-        @keyframes integrationFlash {
-          0% {
-            left: -40%;
-            opacity: 0;
-          }
-          40% {
-            opacity: 1;
-          }
-          100% {
-            left: 128%;
-            opacity: 0;
           }
         }
 

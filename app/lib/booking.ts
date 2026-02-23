@@ -1,4 +1,3 @@
-export const BOOKING_URL =
-  process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendar.google.com/";
+export const BOOKING_URL = "https://calendar.app.google/H4n6vbYDC86fn3w47";
 
 export const BOOKING_CTA_LABEL = "Book an intro meeting";
