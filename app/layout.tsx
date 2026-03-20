@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "./components/Header";
+import { MeshBackground } from "./components/MeshBackground";
 
 export const metadata: Metadata = {
   title: "Evios",
@@ -16,8 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
+        <MeshBackground />
         <Header />
-        <main className="pt-16">{children}</main>
+        <main className="relative z-[1] pt-16">{children}</main>
       </body>
     </html>
   );

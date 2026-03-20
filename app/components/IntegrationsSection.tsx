@@ -17,10 +17,9 @@ const INTEGRATIONS: IntegrationItem[] = [
     logoSrc: "/integrations/servicetitan.png",
   },
   {
-    name: "Jobber",
-    colorHex: "#4caf50",
-    key: "jobber",
-    logoSrc: "/integrations/jobber.png",
+    name: "QuickBooks",
+    colorHex: "#2CA01C",
+    key: "quickbooks",
   },
   {
     name: "Housecall Pro",
@@ -34,8 +33,43 @@ const INTEGRATIONS: IntegrationItem[] = [
     key: "google-calendar",
     logoSrc: "/integrations/google-calendar.png",
   },
-  { name: "Zapier / Webhooks", colorHex: "#ff4a00", key: "zapier" },
+  { name: "Any other app", colorHex: "#64748b", key: "any-app" },
 ];
+
+/** Inline SVG logos for items without a .png */
+function InlineLogo({ k, size }: { k: string; size: number }) {
+  if (k === "quickbooks") {
+    // Official QuickBooks green circle + stylised path
+    return (
+      <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden>
+        <circle cx="20" cy="20" r="20" fill="#2CA01C" />
+        <path
+          d="M12.5 13.5C10.57 13.5 9 15.07 9 17v6c0 1.93 1.57 3.5 3.5 3.5H14v-2h-1.5c-.83 0-1.5-.67-1.5-1.5v-6c0-.83.67-1.5 1.5-1.5H16v9.5a2.5 2.5 0 005 0V13.5h-2v12a.5.5 0 01-1 0V13.5h-5.5z"
+          fill="#fff"
+        />
+        <path
+          d="M27.5 26.5c1.93 0 3.5-1.57 3.5-3.5v-6c0-1.93-1.57-3.5-3.5-3.5H26v2h1.5c.83 0 1.5.67 1.5 1.5v6c0 .83-.67 1.5-1.5 1.5H24v-9.5a2.5 2.5 0 00-5 0V26.5h2v-12a.5.5 0 011 0V26.5h5.5z"
+          fill="#fff"
+        />
+      </svg>
+    );
+  }
+
+  // "Any other app" — plug / link icon
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <circle cx="20" cy="20" r="20" fill="#f1f5f9" />
+      <path
+        d="M22 14l-1.41 1.41L23.17 18H14v2h9.17l-2.58 2.59L22 24l5-5-5-5z"
+        fill="#64748b"
+      />
+      <path
+        d="M12 18v4h2v-4h-2z"
+        fill="#64748b"
+      />
+    </svg>
+  );
+}
 
 export function IntegrationsSection() {
   return (
@@ -80,18 +114,13 @@ export function IntegrationsSection() {
                           width={18}
                           height={18}
                           className={`h-[18px] w-[18px] object-contain ${
-                            ["servicetitan", "jobber", "housecall-pro"].includes(integration.key)
+                            ["servicetitan", "housecall-pro"].includes(integration.key)
                               ? "rounded-md"
                               : ""
                           }`}
                         />
                       ) : (
-                        <span
-                          className="inline-flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-semibold"
-                          style={{ backgroundColor: `${integration.colorHex}18`, color: integration.colorHex }}
-                        >
-                          {integration.name[0]}
-                        </span>
+                        <InlineLogo k={integration.key} size={18} />
                       )}
                     </span>
                     <span className="font-medium">{integration.name}</span>
@@ -113,18 +142,13 @@ export function IntegrationsSection() {
                         width={40}
                         height={40}
                         className={`h-9 w-9 object-contain ${
-                          ["servicetitan", "jobber", "housecall-pro"].includes(integration.key)
+                          ["servicetitan", "housecall-pro"].includes(integration.key)
                             ? "rounded-lg"
                             : ""
                         }`}
                       />
                     ) : (
-                      <span
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full text-lg font-semibold"
-                        style={{ backgroundColor: `${integration.colorHex}18`, color: integration.colorHex }}
-                      >
-                        {integration.name[0]}
-                      </span>
+                      <InlineLogo k={integration.key} size={36} />
                     )}
                   </div>
                   <p className="mt-2 text-center text-sm font-medium text-brand-text">{integration.name}</p>

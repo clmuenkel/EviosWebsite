@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --radius-card: 16px;
   --radius-pill: 999px;
 }
@@ -27,8 +27,8 @@ html {
 }
 
 body {
-  background: #0b1220;
-  color: #e5edf8;
+  background: #faf8f5;
+  color: #1e293b;
   font-family:
     Inter,
     ui-sans-serif,
@@ -50,15 +50,15 @@ a {
 
 @layer components {
   .section-block {
-    @apply px-6 py-24 sm:px-10 sm:py-28 lg:py-36;
+    @apply px-6 py-20 sm:px-10 sm:py-24 lg:py-28;
   }
 
   .section-block-tight {
-    @apply px-6 py-14 sm:px-10 sm:py-16 lg:py-20;
+    @apply px-6 py-12 sm:px-10 sm:py-14 lg:py-16;
   }
 
   .section-divider {
-    @apply border-b border-transparent;
+    @apply border-b border-black/[0.04];
   }
 
   .section-frame {
@@ -74,7 +74,8 @@ a {
   }
 
   .surface-card {
-    @apply border border-white/[0.06] bg-brand-surface shadow-sm;
+    @apply bg-brand-surface shadow-sm;
+    border: 1px solid rgba(15, 23, 42, 0.06);
     border-radius: var(--radius-card);
   }
 
@@ -85,15 +86,16 @@ a {
   }
 
   .interactive-lift {
-    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20;
+    @apply transition-all duration-300 ease-out hover:-translate-y-1;
+    border-color: rgba(11, 83, 148, 0.18);
   }
 
   .flow-line {
     background: linear-gradient(
       90deg,
-      rgba(59, 130, 246, 0.08),
-      rgba(59, 130, 246, 0.45),
-      rgba(59, 130, 246, 0.08)
+      rgba(11, 83, 148, 0.05),
+      rgba(11, 83, 148, 0.32),
+      rgba(11, 83, 148, 0.05)
     );
     background-size: 200% 100%;
     animation: pulse-line 4s linear infinite;
@@ -112,6 +114,40 @@ a {
     transform: translateY(0);
   }
 
+  .hub-pulse {
+    animation: hubPulse 2.8s ease-in-out infinite;
+  }
+
+  .bridge-dot-left,
+  .bridge-dot-right {
+    position: absolute;
+    top: -2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0b5394;
+  }
+
+  .bridge-dot-left {
+    animation: dotLeft 3.5s ease-in-out infinite;
+  }
+
+  .bridge-dot-right {
+    animation: dotRight 4s ease-in-out infinite;
+  }
+
+  .bridge-dot-left.delay-2 {
+    animation-delay: 1.5s;
+  }
+
+  .bridge-dot-right.delay-2 {
+    animation-delay: 1.8s;
+  }
+
+}
+
+.alt-surface {
+  background: transparent;
 }
 
 @keyframes pulse-line {
@@ -120,6 +156,50 @@ a {
   }
   100% {
     background-position: -100% 0;
+  }
+}
+
+@keyframes hubPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(11, 83, 148, 0.2);
+  }
+  60% {
+    box-shadow: 0 0 0 16px rgba(11, 83, 148, 0);
+  }
+}
+
+@keyframes dotLeft {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+
+@keyframes dotRight {
+  0% {
+    right: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    right: 50%;
+    opacity: 0;
   }
 }
 

@@ -6,13 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          bg: "#0b1220",
-          surface: "#121a2b",
-          surface2: "#182338",
-          muted: "#8fa3bf",
-          text: "#e5edf8",
-          accent: "#3b82f6",
-          accentDark: "#2563eb",
+          bg: "#FAF8F5",
+          bgAlt: "#F2F0EB",
+          surface: "#FFFFFF",
+          surface2: "#F7F4EF",
+          muted: "#64748b",
+          text: "#1e293b",
+          accent: "#0b5394",
+          accentLight: "#c9daf8",
+          accentDark: "#083d6f",
         },
       },
       spacing: {

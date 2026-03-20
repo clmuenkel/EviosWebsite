@@ -6,16 +6,16 @@ import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 import { scrollToId } from "../lib/scroll";
 
 const NAV_ITEMS = [
-  { id: "how-it-works", label: "How it works" },
-  { id: "demo", label: "Demo" },
+  { id: "process", label: "How it works" },
+  { id: "products", label: "What we build" },
   { id: "integrations", label: "Integrations" },
-  { id: "offer", label: "Offer" },
   { id: "faq", label: "FAQ" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
 const CTA_ITEMS = [
   { label: BOOKING_CTA_LABEL, primary: true, href: BOOKING_URL, id: undefined },
-  { label: "Hear a demo call", primary: false, id: "demo", href: undefined },
+  { label: "See how it works", primary: false, id: "process", href: undefined },
 ] as const;
 
 function HeaderLink({
@@ -30,7 +30,7 @@ function HeaderLink({
   return (
     <button
       type="button"
-      className="text-sm font-medium text-brand-muted transition-colors hover:text-brand-text"
+      className="text-sm font-medium text-brand-muted transition-colors hover:text-brand-accent"
       onClick={() => {
         scrollToId(targetId);
         onClick?.();
@@ -55,8 +55,8 @@ function HeaderCta({
   onClick?: () => void;
 }) {
   const className = primary
-    ? "rounded-md bg-brand-accent px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-accentDark"
-    : "rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-brand-text transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent hover:text-white";
+    ? "rounded-md bg-brand-accent px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-accentDark"
+    : "rounded-md border border-brand-accent/20 px-4 py-2 text-sm font-semibold text-brand-accent transition-colors duration-200 hover:border-brand-accent/35 hover:bg-brand-accent/5";
 
   if (href) {
     return (
@@ -105,7 +105,7 @@ export function Header() {
   }, [mobileOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-brand-bg/95 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/[0.06] bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button
           type="button"
@@ -113,11 +113,11 @@ export function Header() {
           className="flex items-center"
         >
           <Image
-            src="/evios-logo-header.png"
+            src="/evios-logo-header.png?v=2"
             alt="Evios"
             width={100}
             height={32}
-            className="h-8 w-auto mix-blend-screen"
+            className="h-8 w-auto"
             priority
           />
         </button>
@@ -142,7 +142,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/20 text-brand-text md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-black/[0.08] text-brand-text md:hidden"
           aria-label="Open menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -160,11 +160,11 @@ export function Header() {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            className="fixed inset-0 z-40 bg-black/20 md:hidden"
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu overlay"
           />
-          <div className="absolute inset-x-3 top-16 z-50 rounded-xl border border-white/10 bg-brand-surface px-5 py-6 shadow-xl md:hidden">
+          <div className="absolute inset-x-3 top-16 z-50 rounded-xl border border-black/[0.08] bg-white px-5 py-6 shadow-lg md:hidden">
             <div className="flex flex-col gap-5">
               {NAV_ITEMS.map((item) => (
                 <HeaderLink

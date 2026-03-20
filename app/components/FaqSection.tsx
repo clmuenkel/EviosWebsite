@@ -29,11 +29,6 @@ const FAQ_ITEMS: FaqItem[] = [
       "Most systems go live in about four weeks, including discovery, build, testing, and launch.",
   },
   {
-    question: "What if it does not work for us?",
-    answer:
-      "You get a 30-day trial period after launch. If it does not create real value, you pay $0.",
-  },
-  {
     question: "Do we need to replace our current phone system or software?",
     answer:
       "No. We build around what you already use and layer automation into your current operations.",
@@ -89,7 +84,7 @@ export function FaqSection() {
                   style={{ gridTemplateRows: expanded ? "1fr" : "0fr", opacity: expanded ? 1 : 0.55 }}
                 >
                   <div className="overflow-hidden">
-                    <p className="border-t border-white/10 px-5 py-4 text-sm leading-relaxed text-brand-muted">
+                    <p className="border-t border-black/[0.06] px-5 py-4 text-sm leading-relaxed text-brand-muted">
                       {item.answer}
                     </p>
                   </div>
@@ -103,7 +98,8 @@ export function FaqSection() {
           .faq-section .faq-item {
             position: relative;
             overflow: hidden;
-            border-color: rgba(148, 163, 184, 0.26);
+            border-color: rgba(15, 23, 42, 0.06);
+            background: #fff;
             transition:
               background-color 220ms ease,
               border-color 220ms ease,
@@ -117,16 +113,16 @@ export function FaqSection() {
             top: 0;
             bottom: 0;
             width: 3px;
-            background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+            background: #0b5394;
             opacity: 0;
             pointer-events: none;
             transition: opacity 220ms ease;
           }
 
           .faq-section .faq-item:hover {
-            border-color: rgba(56, 189, 248, 0.26);
-            background: rgba(56, 189, 248, 0.06);
-            box-shadow: 0 10px 18px rgba(2, 6, 23, 0.22);
+            border-color: rgba(11, 83, 148, 0.24);
+            background: rgba(11, 83, 148, 0.04);
+            box-shadow: 0 8px 18px rgba(2, 6, 23, 0.08);
           }
 
           .faq-section .faq-item.is-open::before {
@@ -144,8 +140,8 @@ export function FaqSection() {
             align-items: center;
             justify-content: center;
             border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            background: #fff;
             flex-shrink: 0;
             transition:
               transform 220ms ease,
@@ -164,12 +160,9 @@ export function FaqSection() {
 
           .faq-section .faq-item.is-open .faq-icon {
             transform: rotate(45deg);
-            border-color: rgba(56, 189, 248, 0.55);
-            background: rgba(56, 189, 248, 0.14);
-          }
-
-          .faq-section .faq-answer-grid p {
-            border-top-color: rgba(148, 163, 184, 0.22);
+            border-color: rgba(11, 83, 148, 0.28);
+            background: rgba(11, 83, 148, 0.07);
+            color: #0b5394;
           }
 
           @media (prefers-reduced-motion: reduce) {
