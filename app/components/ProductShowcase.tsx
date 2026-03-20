@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { PillarCards } from "./TransitionSection";
 
 type DemoAction = "play" | "pause" | "restart";
 
@@ -389,14 +390,20 @@ export function ProductShowcase() {
     <section id="products" className="section-block section-divider">
       <div className="section-frame">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
-          Product demos
+          What we automate
         </p>
-        <h2 className="section-heading text-center">What we&apos;ve built</h2>
+        <h2 className="section-heading text-center">
+          The back-office gaps that cost you money
+        </h2>
         <p className="section-copy mx-auto text-center">
-          Recently developed apps that show how we turn field workflows into software.
+          Most field-service revenue leaks happen in three places. We build custom software that closes each one.
         </p>
 
-        <div className="mt-10 space-y-6 md:space-y-8">
+        <div className="mt-10">
+          <PillarCards />
+        </div>
+
+        <div className="mt-12 space-y-6 md:space-y-8">
           {SHOWCASE_ITEMS.map((item) => {
             const isVisible = !!inViewMap[item.id];
             const isMediaRight = item.kind === "video" && item.mediaPosition === "right";

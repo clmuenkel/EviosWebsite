@@ -223,17 +223,16 @@ function runGrowthAnim(container: HTMLElement) {
   });
 }
 
-export function TransitionSection() {
-  const sectionRef = useRef<HTMLElement | null>(null);
+export function PillarCards() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const node = sectionRef.current;
+    const node = containerRef.current;
     if (!node) return;
 
     function runAll() {
       if (!node) return;
-      // Clear any pending timers from previous loop iteration
       clearAllTimers();
 
       const cards = node.querySelectorAll<HTMLElement>("[data-pillar]");
@@ -272,13 +271,10 @@ export function TransitionSection() {
   return (
     <>
       <style jsx global>{`
-        /* ── Card entrance ── */
         @keyframes tsCardIn {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
         }
-
-        /* ── Inventory keyframes ── */
         @keyframes tsInvBubbleIn {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: translateY(0); }
@@ -299,8 +295,6 @@ export function TransitionSection() {
           from { opacity: 0; transform: translateY(-50%) translateX(-4px); }
           to { opacity: 1; transform: translateY(-50%) translateX(0); }
         }
-
-        /* ── Quoting keyframes ── */
         @keyframes tsRfpDocIn {
           from { opacity: 0; transform: translateY(-20px); }
           to { opacity: 1; transform: translateY(0); }
@@ -317,15 +311,12 @@ export function TransitionSection() {
           from { opacity: 0; transform: translate(-50%, -50%) rotate(-12deg) scale(1.3); }
           to { opacity: 1; transform: translate(-50%, -50%) rotate(-12deg) scale(1); }
         }
-
-        /* ── Growth keyframes ── */
         @keyframes tsGhostUp {
           0% { opacity: 0; transform: translateY(0); }
           30% { opacity: 1; }
           100% { opacity: 0; transform: translateY(-18px); }
         }
 
-        /* ── Anim container ── */
         .ts-anim-container {
           width: 100%;
           height: 190px;
@@ -334,394 +325,165 @@ export function TransitionSection() {
           overflow: hidden;
           border-bottom: 1px solid rgba(0,0,0,0.04);
         }
-
-        /* ── Inventory elements ── */
         .ts-inv-phone {
-          position: absolute;
-          left: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 80px;
-          height: 148px;
-          background: #fff;
-          border-radius: 14px;
-          border: 1.5px solid #d1d5db;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-          overflow: hidden;
+          position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+          width: 80px; height: 148px; background: #fff; border-radius: 14px;
+          border: 1.5px solid #d1d5db; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden;
         }
         .ts-inv-phone-header {
-          background: #0b5394;
-          height: 22px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 7px;
-          color: #fff;
-          font-weight: 600;
-          letter-spacing: 0.05em;
+          background: #0b5394; height: 22px; display: flex; align-items: center;
+          justify-content: center; font-size: 7px; color: #fff; font-weight: 600; letter-spacing: 0.05em;
         }
-        .ts-inv-phone-body {
-          padding: 6px;
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-        }
+        .ts-inv-phone-body { padding: 6px; display: flex; flex-direction: column; gap: 5px; }
         .ts-inv-bubble {
-          background: #e8f0fe;
-          border-radius: 8px 8px 8px 3px;
-          padding: 5px 7px;
-          font-size: 6.5px;
-          color: #1e293b;
-          line-height: 1.4;
-          opacity: 0;
-          transform: translateY(6px);
+          background: #e8f0fe; border-radius: 8px 8px 8px 3px; padding: 5px 7px;
+          font-size: 6.5px; color: #1e293b; line-height: 1.4; opacity: 0; transform: translateY(6px);
         }
         .ts-inv-arrow {
-          position: absolute;
-          left: 102px;
-          top: 50%;
-          transform: translateY(-50%);
-          display: flex;
-          align-items: center;
-          gap: 0;
-          opacity: 0;
+          position: absolute; left: 102px; top: 50%; transform: translateY(-50%);
+          display: flex; align-items: center; gap: 0; opacity: 0;
         }
-        .ts-inv-arrow-line {
-          width: 18px;
-          height: 2px;
-          background: #0b5394;
-          border-radius: 1px;
-        }
-        .ts-inv-arrow svg {
-          width: 8px;
-          height: 8px;
-          fill: #0b5394;
-          margin-left: -1px;
-        }
+        .ts-inv-arrow-line { width: 18px; height: 2px; background: #0b5394; border-radius: 1px; }
+        .ts-inv-arrow svg { width: 8px; height: 8px; fill: #0b5394; margin-left: -1px; }
         .ts-inv-dashboard {
-          position: absolute;
-          right: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 130px;
-          height: 130px;
-          background: #fff;
-          border-radius: 10px;
-          border: 1.5px solid #e2e8f0;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-          overflow: hidden;
+          position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+          width: 130px; height: 130px; background: #fff; border-radius: 10px;
+          border: 1.5px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden;
         }
         .ts-inv-dash-header {
-          background: #f8fafc;
-          border-bottom: 1px solid #e2e8f0;
-          padding: 5px 8px;
-          font-size: 7px;
-          font-weight: 600;
-          color: #1e293b;
+          background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+          padding: 5px 8px; font-size: 7px; font-weight: 600; color: #1e293b;
         }
-        .ts-inv-dash-body {
-          padding: 6px 8px;
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-        }
+        .ts-inv-dash-body { padding: 6px 8px; display: flex; flex-direction: column; gap: 5px; }
         .ts-inv-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          font-size: 6.5px;
-          color: #64748b;
-          opacity: 0;
+          display: flex; align-items: center; justify-content: space-between;
+          font-size: 6.5px; color: #64748b; opacity: 0;
         }
-        .ts-inv-row-bar {
-          width: 40px;
-          height: 5px;
-          background: #e2e8f0;
-          border-radius: 3px;
-          overflow: hidden;
-          position: relative;
-        }
-        .ts-inv-row-fill {
-          height: 100%;
-          border-radius: 3px;
-          width: 0%;
-        }
+        .ts-inv-row-bar { width: 40px; height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden; position: relative; }
+        .ts-inv-row-fill { height: 100%; border-radius: 3px; width: 0%; }
         .ts-inv-po {
-          margin-top: 4px;
-          background: #dcfce7;
-          border: 1px solid #bbf7d0;
-          border-radius: 6px;
-          padding: 4px 6px;
-          font-size: 6px;
-          font-weight: 600;
-          color: #166534;
-          text-align: center;
-          opacity: 0;
-          transform: scale(0.8);
+          margin-top: 4px; background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 6px;
+          padding: 4px 6px; font-size: 6px; font-weight: 600; color: #166534; text-align: center;
+          opacity: 0; transform: scale(0.8);
         }
-
-        /* ── Quoting elements ── */
-        .ts-rfp-scene {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+        .ts-rfp-scene { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
         .ts-rfp-doc {
-          width: 80px;
-          height: 105px;
-          background: #fff;
-          border-radius: 8px;
-          border: 1.5px solid #e2e8f0;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-          position: relative;
-          overflow: hidden;
-          animation: tsRfpDocIn 0.6s ease 0.3s forwards;
-          opacity: 0;
-          transform: translateY(-20px);
+          width: 80px; height: 105px; background: #fff; border-radius: 8px;
+          border: 1.5px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+          position: relative; overflow: hidden; animation: tsRfpDocIn 0.6s ease 0.3s forwards;
+          opacity: 0; transform: translateY(-20px);
         }
         .ts-rfp-doc-header {
-          background: #0b5394;
-          height: 18px;
-          display: flex;
-          align-items: center;
-          padding: 0 6px;
-          font-size: 6px;
-          color: #fff;
-          font-weight: 600;
+          background: #0b5394; height: 18px; display: flex; align-items: center;
+          padding: 0 6px; font-size: 6px; color: #fff; font-weight: 600;
         }
-        .ts-rfp-doc-lines {
-          padding: 7px 6px;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-        .ts-rfp-doc-line {
-          height: 3px;
-          background: #e2e8f0;
-          border-radius: 2px;
-        }
+        .ts-rfp-doc-lines { padding: 7px 6px; display: flex; flex-direction: column; gap: 4px; }
+        .ts-rfp-doc-line { height: 3px; background: #e2e8f0; border-radius: 2px; }
         .ts-rfp-clock {
-          position: absolute;
-          right: 50px;
-          top: 30px;
-          width: 52px;
-          height: 52px;
-          border-radius: 50%;
-          border: 2px solid #e2e8f0;
-          background: #fff;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-          opacity: 0;
+          position: absolute; right: 50px; top: 30px; width: 52px; height: 52px;
+          border-radius: 50%; border: 2px solid #e2e8f0; background: #fff;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06); opacity: 0;
           animation: tsRfpClockIn 0.4s ease 1s forwards;
         }
         .ts-rfp-clock-hand {
-          position: absolute;
-          bottom: 50%;
-          left: 50%;
-          width: 1.5px;
-          height: 18px;
-          background: #0b5394;
-          border-radius: 1px;
-          transform-origin: bottom center;
-          animation: tsRfpClockSpin 2s linear 1.2s forwards;
-          transform: rotate(0deg);
+          position: absolute; bottom: 50%; left: 50%; width: 1.5px; height: 18px;
+          background: #0b5394; border-radius: 1px; transform-origin: bottom center;
+          animation: tsRfpClockSpin 2s linear 1.2s forwards; transform: rotate(0deg);
         }
         .ts-rfp-clock-dot {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 4px;
-          height: 4px;
-          background: #0b5394;
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
+          position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+          background: #0b5394; border-radius: 50%; transform: translate(-50%, -50%);
         }
         .ts-rfp-stamp {
-          position: absolute;
-          left: 50%;
-          top: 50%;
+          position: absolute; left: 50%; top: 50%;
           transform: translate(-50%, -50%) rotate(-12deg) scale(0.6);
-          font-size: 18px;
-          font-weight: 800;
-          color: #dc2626;
-          border: 3px solid #dc2626;
-          border-radius: 8px;
-          padding: 4px 12px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          opacity: 0;
+          font-size: 18px; font-weight: 800; color: #dc2626;
+          border: 3px solid #dc2626; border-radius: 8px; padding: 4px 12px;
+          letter-spacing: 0.1em; text-transform: uppercase; opacity: 0;
           animation: tsRfpStampIn 0.3s cubic-bezier(.22,.68,.35,1.0) 3.2s forwards;
         }
-
-        /* ── Growth elements ── */
         .ts-growth-scene {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          padding: 0 20px;
+          position: absolute; inset: 0; display: flex; align-items: center;
+          justify-content: center; gap: 10px; padding: 0 20px;
         }
-        .ts-growth-customer {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 5px;
-        }
+        .ts-growth-customer { display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .ts-growth-avatar {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 2px solid #e2e8f0;
-          background: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          transition: all 0.6s ease;
+          width: 36px; height: 36px; border-radius: 50%; border: 2px solid #e2e8f0;
+          background: #fff; display: flex; align-items: center; justify-content: center;
+          position: relative; transition: all 0.6s ease;
         }
-        .ts-growth-avatar svg {
-          width: 16px;
-          height: 16px;
-          stroke: #94a3b8;
-          fill: none;
-          stroke-width: 1.5;
-          transition: stroke 0.4s ease;
-        }
-        .ts-growth-label {
-          font-size: 6.5px;
-          color: #64748b;
-          font-weight: 500;
-        }
+        .ts-growth-avatar svg { width: 16px; height: 16px; stroke: #94a3b8; fill: none; stroke-width: 1.5; transition: stroke 0.4s ease; }
+        .ts-growth-label { font-size: 6.5px; color: #64748b; font-weight: 500; }
         .ts-growth-check {
-          position: absolute;
-          bottom: -2px;
-          right: -2px;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: #22c55e;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transform: scale(0.5);
+          position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px;
+          border-radius: 50%; background: #22c55e; display: flex; align-items: center;
+          justify-content: center; opacity: 0; transform: scale(0.5);
         }
-        .ts-growth-check svg {
-          width: 8px;
-          height: 8px;
-          stroke: #fff;
-          stroke-width: 2.5;
-        }
-        .ts-growth-connector {
-          width: 18px;
-          height: 2px;
-          background: #e2e8f0;
-          border-radius: 1px;
-          flex-shrink: 0;
-          opacity: 0.5;
-        }
-        .ts-growth-ghost {
-          font-size: 7px;
-          color: #f87171;
-          font-weight: 600;
-          opacity: 0;
-        }
-
-        /* ── Closer decorative line ── */
-        .ts-closer::before {
-          content: "";
-          display: block;
-          width: 40px;
-          height: 2px;
-          background: #c9daf8;
-          border-radius: 2px;
-          margin: 0 auto 16px;
-        }
+        .ts-growth-check svg { width: 8px; height: 8px; stroke: #fff; stroke-width: 2.5; }
+        .ts-growth-connector { width: 18px; height: 2px; background: #e2e8f0; border-radius: 1px; flex-shrink: 0; opacity: 0.5; }
+        .ts-growth-ghost { font-size: 7px; color: #f87171; font-weight: 600; opacity: 0; }
       `}</style>
 
-      <section
-        ref={sectionRef}
-        className="section-block section-divider"
-      >
-        <div className="section-frame flex flex-col items-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
-            Where the real money leaks
-          </p>
-          <h2 className="section-heading mt-3.5 text-center">
-            The revenue you&apos;re losing isn&apos;t at the door.
-            <br />
-            It&apos;s in the back office.
-          </h2>
+      <div ref={containerRef} className="flex w-full flex-col gap-[18px] md:flex-row">
+        {PILLARS.map((p, i) => (
+          <div
+            key={p.id}
+            data-pillar={p.id}
+            className="flex-1 overflow-hidden rounded-[20px] border border-black/[0.05] bg-white shadow-sm"
+            style={{
+              opacity: 0,
+              transform: "translateY(24px)",
+              animation: `tsCardIn 0.5s cubic-bezier(.22,.68,.35,1.0) ${0.15 + i * 0.12}s forwards`,
+            }}
+          >
+            <div className="ts-anim-container">
+              {p.id === "inventory" && (
+                <>
+                  <div className="ts-inv-phone">
+                    <div className="ts-inv-phone-header">FIELD TECH</div>
+                    <div className="ts-inv-phone-body" data-inv-bubbles />
+                  </div>
+                  <div className="ts-inv-arrow" data-inv-arrow>
+                    <div className="ts-inv-arrow-line" />
+                    <svg viewBox="0 0 8 10">
+                      <polygon points="8,5 0,0 0,10" />
+                    </svg>
+                  </div>
+                  <div className="ts-inv-dashboard">
+                    <div className="ts-inv-dash-header">Stock Dashboard</div>
+                    <div className="ts-inv-dash-body" data-inv-rows />
+                  </div>
+                </>
+              )}
+              {p.id === "quoting" && (
+                <div className="ts-rfp-scene" data-rfp-scene />
+              )}
+              {p.id === "growth" && (
+                <div className="ts-growth-scene" data-growth-scene />
+              )}
+            </div>
 
-          <div className="mt-12 flex w-full flex-col gap-[18px] md:flex-row">
-            {PILLARS.map((p, i) => (
-              <div
-                key={p.id}
-                data-pillar={p.id}
-                className="flex-1 overflow-hidden rounded-[20px] border border-black/[0.05] bg-white shadow-sm"
-                style={{
-                  opacity: 0,
-                  transform: "translateY(24px)",
-                  animation: `tsCardIn 0.5s cubic-bezier(.22,.68,.35,1.0) ${0.15 + i * 0.12}s forwards`,
-                }}
-              >
-                <div className="ts-anim-container">
-                  {p.id === "inventory" && (
-                    <>
-                      <div className="ts-inv-phone">
-                        <div className="ts-inv-phone-header">FIELD TECH</div>
-                        <div className="ts-inv-phone-body" data-inv-bubbles />
-                      </div>
-                      <div className="ts-inv-arrow" data-inv-arrow>
-                        <div className="ts-inv-arrow-line" />
-                        <svg viewBox="0 0 8 10">
-                          <polygon points="8,5 0,0 0,10" />
-                        </svg>
-                      </div>
-                      <div className="ts-inv-dashboard">
-                        <div className="ts-inv-dash-header">Stock Dashboard</div>
-                        <div className="ts-inv-dash-body" data-inv-rows />
-                      </div>
-                    </>
-                  )}
-                  {p.id === "quoting" && (
-                    <div className="ts-rfp-scene" data-rfp-scene />
-                  )}
-                  {p.id === "growth" && (
-                    <div className="ts-growth-scene" data-growth-scene />
-                  )}
-                </div>
-
-                <div className="p-[22px] pb-5">
-                  <div className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-accent">
-                    {p.label}
-                  </div>
-                  <div className="mt-2 text-sm leading-relaxed text-brand-muted">
-                    {p.line}
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {p.logos.map((logo) => (
-                      <span
-                        key={logo}
-                        className="whitespace-nowrap rounded-full border border-black/[0.05] bg-black/[0.03] px-2.5 py-1 text-[11px] font-medium text-brand-muted"
-                      >
-                        {logo}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+            <div className="p-[22px] pb-5">
+              <div className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-accent">
+                {p.label}
               </div>
-            ))}
+              <div className="mt-2 text-sm leading-relaxed text-brand-muted">
+                {p.line}
+              </div>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {p.logos.map((logo) => (
+                  <span
+                    key={logo}
+                    className="whitespace-nowrap rounded-full border border-black/[0.05] bg-black/[0.03] px-2.5 py-1 text-[11px] font-medium text-brand-muted"
+                  >
+                    {logo}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-
-          <div className="ts-closer mt-11 text-center text-[15px] font-[450] text-brand-muted">
-            We build the software that closes these gaps.
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
     </>
   );
 }

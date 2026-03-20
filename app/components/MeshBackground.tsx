@@ -217,12 +217,12 @@ class Particle {
     this.iconIdx = iconIdx;
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.15;
-    this.vy = (Math.random() - 0.5) * 0.15;
+    this.vx = (Math.random() - 0.5) * 0.08;
+    this.vy = (Math.random() - 0.5) * 0.08;
     this.radius = isIcon ? 3 : Math.random() * 2 + 1.5;
     this.baseAlpha = isIcon
-      ? Math.random() * 0.15 + 0.2
-      : Math.random() * 0.15 + 0.12;
+      ? Math.random() * 0.1 + 0.12
+      : Math.random() * 0.1 + 0.07;
     this.alpha = this.baseAlpha;
     this.isAccent = Math.random() > 0.35;
     this.iconScale = 0.9 + Math.random() * 0.3;
@@ -335,7 +335,7 @@ class Pulse {
     const g = Math.round(WARM_RED.g + (BLUE.g - WARM_RED.g) * p);
     const b = Math.round(WARM_RED.b + (BLUE.b - WARM_RED.b) * p);
 
-    const fadeAlpha = 0.45 * (1 - Math.pow(Math.abs(p - 0.5) * 2, 2));
+    const fadeAlpha = 0.3 * (1 - Math.pow(Math.abs(p - 0.5) * 2, 2));
 
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, Math.PI * 2);
@@ -422,7 +422,7 @@ export function MeshBackground() {
       const conns = getConnections();
 
       conns.forEach((c) => {
-        const opacity = (1 - c.dist / CONNECTION_DIST) * 0.1;
+        const opacity = (1 - c.dist / CONNECTION_DIST) * 0.06;
         ctx!.beginPath();
         ctx!.moveTo(particles[c.i].x, particles[c.i].y);
         ctx!.lineTo(particles[c.j].x, particles[c.j].y);

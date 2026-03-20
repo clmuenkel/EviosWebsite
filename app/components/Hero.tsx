@@ -58,9 +58,9 @@ export function Hero() {
           inset: 0;
           z-index: 5;
           background: radial-gradient(
-            ellipse 50% 45% at 50% 48%,
-            rgba(250, 248, 245, 0.82) 0%,
-            rgba(250, 248, 245, 0.25) 55%,
+            ellipse 55% 50% at 50% 48%,
+            rgba(250, 248, 245, 0.92) 0%,
+            rgba(250, 248, 245, 0.45) 55%,
             rgba(250, 248, 245, 0) 100%
           );
           pointer-events: none;
