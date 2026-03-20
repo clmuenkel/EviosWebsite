@@ -217,12 +217,12 @@ class Particle {
     this.iconIdx = iconIdx;
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.35;
-    this.vy = (Math.random() - 0.5) * 0.35;
+    this.vx = (Math.random() - 0.5) * 0.15;
+    this.vy = (Math.random() - 0.5) * 0.15;
     this.radius = isIcon ? 3 : Math.random() * 2 + 1.5;
     this.baseAlpha = isIcon
-      ? Math.random() * 0.25 + 0.35
-      : Math.random() * 0.3 + 0.22;
+      ? Math.random() * 0.15 + 0.2
+      : Math.random() * 0.15 + 0.12;
     this.alpha = this.baseAlpha;
     this.isAccent = Math.random() > 0.35;
     this.iconScale = 0.9 + Math.random() * 0.3;
@@ -244,9 +244,9 @@ class Particle {
     this.vy *= 0.995;
 
     const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-    if (speed < 0.15) {
-      this.vx += (Math.random() - 0.5) * 0.08;
-      this.vy += (Math.random() - 0.5) * 0.08;
+    if (speed < 0.06) {
+      this.vx += (Math.random() - 0.5) * 0.03;
+      this.vy += (Math.random() - 0.5) * 0.03;
     }
 
     this.x += this.vx;
@@ -262,7 +262,7 @@ class Particle {
 
     if (this.brightTimer > 0) {
       this.brightTimer -= 0.02;
-      this.alpha = Math.min(this.baseAlpha + this.brightTimer * 0.5, 0.85);
+      this.alpha = Math.min(this.baseAlpha + this.brightTimer * 0.3, 0.5);
     }
   }
 
@@ -299,7 +299,7 @@ class Pulse {
     this.fromIdx = fromIdx;
     this.toIdx = toIdx;
     this.progress = 0;
-    this.speed = 2.2 + Math.random() * 1.2;
+    this.speed = 1.0 + Math.random() * 0.6;
     this.alive = true;
   }
 
@@ -335,7 +335,7 @@ class Pulse {
     const g = Math.round(WARM_RED.g + (BLUE.g - WARM_RED.g) * p);
     const b = Math.round(WARM_RED.b + (BLUE.b - WARM_RED.b) * p);
 
-    const fadeAlpha = 0.85 * (1 - Math.pow(Math.abs(p - 0.5) * 2, 2));
+    const fadeAlpha = 0.45 * (1 - Math.pow(Math.abs(p - 0.5) * 2, 2));
 
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, Math.PI * 2);
@@ -422,7 +422,7 @@ export function MeshBackground() {
       const conns = getConnections();
 
       conns.forEach((c) => {
-        const opacity = (1 - c.dist / CONNECTION_DIST) * 0.18;
+        const opacity = (1 - c.dist / CONNECTION_DIST) * 0.1;
         ctx!.beginPath();
         ctx!.moveTo(particles[c.i].x, particles[c.i].y);
         ctx!.lineTo(particles[c.j].x, particles[c.j].y);
@@ -434,7 +434,7 @@ export function MeshBackground() {
       particles.filter((p) => !p.isIcon).forEach((p) => p.draw(ctx!));
       particles.filter((p) => p.isIcon).forEach((p) => p.draw(ctx!));
 
-      if (time - lastPulseTime > 350 + Math.random() * 250) {
+      if (time - lastPulseTime > 800 + Math.random() * 600) {
         if (conns.length > 0) {
           const c = conns[Math.floor(Math.random() * conns.length)];
           const dir = Math.random() > 0.5;
