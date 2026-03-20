@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PillarCards } from "./TransitionSection";
-
 type DemoAction = "play" | "pause" | "restart";
 
 type Feature = { icon: React.ReactNode; label: string; tag: string };
@@ -390,30 +388,14 @@ export function ProductShowcase() {
     <section id="products" className="section-block section-divider">
       <div className="section-frame">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
-          What we automate
+          What we&apos;ve built
         </p>
         <h2 className="section-heading text-center">
-          The back-office gaps that cost you money
+          Real apps we&apos;ve shipped for teams like yours
         </h2>
         <p className="section-copy mx-auto text-center">
-          Most field-service revenue leaks happen in three places. We build custom software that closes each one.
+          Each demo below started as a conversation about a broken workflow — and became production software in weeks.
         </p>
-
-        <div className="mt-10">
-          <PillarCards />
-        </div>
-
-        <div className="mt-16 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
-            What we&apos;ve built
-          </p>
-          <h3 className="mt-3 text-balance text-2xl font-semibold tracking-tight text-brand-text sm:text-3xl">
-            Real apps we&apos;ve shipped for teams like yours
-          </h3>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-brand-muted sm:text-base">
-            Each demo below started as a conversation about a broken workflow — and became production software in weeks.
-          </p>
-        </div>
 
         <div className="mt-10 space-y-6 md:space-y-8">
           {SHOWCASE_ITEMS.map((item) => {
