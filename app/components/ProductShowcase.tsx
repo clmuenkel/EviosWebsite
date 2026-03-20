@@ -288,7 +288,7 @@ export function ProductShowcase() {
 
     const item = SHOWCASE_ITEMS.find((i) => i.id === itemId);
     if (item?.kind === "iframe") {
-      if (iframeReady[itemId] && inViewMap[itemId]) {
+      if (iframeReady[itemId]) {
         postIframeCommand(itemId, item.messageType, "play");
         setIframePlaying((prev) => ({ ...prev, [itemId]: true }));
       }
@@ -296,7 +296,7 @@ export function ProductShowcase() {
     }
 
     const videoEl = videoRefs.current[itemId];
-    if (videoEl && inViewMap[itemId]) {
+    if (videoEl) {
       videoEl.play().catch(() => {});
     }
   };
@@ -350,7 +350,7 @@ export function ProductShowcase() {
           return hasChanges ? next : current;
         });
       },
-      { threshold: 0.35 },
+      { threshold: 0.1 },
     );
 
     Object.values(rowRefs.current).forEach((node) => {
@@ -403,7 +403,19 @@ export function ProductShowcase() {
           <PillarCards />
         </div>
 
-        <div className="mt-12 space-y-6 md:space-y-8">
+        <div className="mt-16 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
+            What we&apos;ve built
+          </p>
+          <h3 className="mt-3 text-balance text-2xl font-semibold tracking-tight text-brand-text sm:text-3xl">
+            Real apps we&apos;ve shipped for teams like yours
+          </h3>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-brand-muted sm:text-base">
+            Each demo below started as a conversation about a broken workflow — and became production software in weeks.
+          </p>
+        </div>
+
+        <div className="mt-10 space-y-6 md:space-y-8">
           {SHOWCASE_ITEMS.map((item) => {
             const isVisible = !!inViewMap[item.id];
             const isMediaRight = item.kind === "video" && item.mediaPosition === "right";
