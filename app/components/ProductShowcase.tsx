@@ -128,7 +128,7 @@ const SHOWCASE_ITEMS: ShowcaseItem[] = [
     ],
     iframeSrc: "/demos/inventory-demo.html",
     messageType: "inventory-demo-control",
-    iframeHeight: "h-[460px] sm:h-[580px] md:h-[580px] lg:h-[540px]",
+    iframeHeight: "h-[480px] sm:h-[520px] md:h-[540px] lg:h-[540px]",
     iframeTitle: "Inventory management demo",
   },
   {
@@ -146,7 +146,7 @@ const SHOWCASE_ITEMS: ShowcaseItem[] = [
     ],
     iframeSrc: "/demos/rfp-demo.html",
     messageType: "rfp-demo-control",
-    iframeHeight: "h-[640px] sm:h-[600px] md:h-[600px]",
+    iframeHeight: "h-[340px] sm:h-[450px] md:h-[580px] lg:h-[600px]",
     iframeTitle: "RFP pipeline demo",
   },
   {
