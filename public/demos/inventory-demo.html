@@ -21,21 +21,9 @@
 
   /* ═══ RESPONSIVE WRAPPER ═══ */
   .demo-wrap{
-    --demo-scale:1;
     position:relative;
     display:flex;align-items:center;justify-content:center;gap:40px;
     width:100%;min-height:510px;padding:20px;
-    transform:scale(var(--demo-scale));
-    transform-origin:top center;
-  }
-  @media(max-width:1100px){
-    .demo-wrap{--demo-scale:.85}
-  }
-  @media(max-width:900px){
-    .demo-wrap{--demo-scale:.72;flex-direction:column;gap:20px;padding:12px}
-  }
-  @media(max-width:600px){
-    .demo-wrap{--demo-scale:.62}
   }
 
   /* ═══ DEVICE FRAMES ═══ */
@@ -475,23 +463,24 @@ function pausePlayback(){
 }
 
 async function resumePlayback(){
+  isPausedByParent=false;
+  if(waveformWasActiveBeforePause) wf.classList.add('ac');
+  if(timerWasRunningBeforePause) startT();
   try{
     const audio=$('#audio');
     await audio.play();
-    isPausedByParent=false;
     hidePrompt();
-    if(waveformWasActiveBeforePause) wf.classList.add('ac');
-    if(timerWasRunningBeforePause) startT();
-    return true;
   }catch(e){
-    showPrompt('Tap inside demo to enable audio');
-    return false;
+    // audio may fail due to autoplay policy — animation still resumes
   }
+  return true;
 }
 
-$('#pp').addEventListener('click',()=>{
-  if(!started){startLoop()}
-  else{resumePlayback()}
+$('#pp').addEventListener('click',async()=>{
+  if(!started){startLoop();return}
+  // Demo already running — just enable audio from this user gesture
+  try{const a=$('#audio');await a.play();hidePrompt()}catch(e){}
+  if(isPausedByParent) resumePlayback();
 });
 
 window.addEventListener('message',(event)=>{
@@ -517,12 +506,8 @@ async function startLoop(){
 
   resetDemo();
 
-  const audioReady=await playAudioFromStart();
-  if(!audioReady){
-    started=false;
-    isPausedByParent=true;
-    return;
-  }
+  // Audio is optional — don't block the demo if autoplay is restricted
+  await playAudioFromStart();
 
   if(!(await waitWithPause(8000,runId))) return;
   $('#pm').classList.add('hl');if(!(await waitWithPause(2000,runId))) return;

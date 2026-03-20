@@ -1,73 +1,98 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 import { scrollToId } from "../lib/scroll";
 
-const NAV_ITEMS = [
-  { id: "process", label: "How it works" },
-  { id: "products", label: "What we build" },
+type NavItem =
+  | { id: string; label: string; href?: undefined }
+  | { href: string; label: string; id?: undefined };
+
+const NAV_ITEMS: NavItem[] = [
+  { href: "/demos", label: "Demos" },
   { id: "integrations", label: "Integrations" },
   { id: "faq", label: "FAQ" },
   { id: "contact", label: "Contact" },
-] as const;
+];
 
-const CTA_ITEMS = [
-  { label: BOOKING_CTA_LABEL, primary: true, href: BOOKING_URL, id: undefined },
-  { label: "See how it works", primary: false, id: "process", href: undefined },
-] as const;
+type CtaItem =
+  | { label: string; primary: boolean; href: string; id?: undefined }
+  | { label: string; primary: boolean; id: string; href?: undefined };
+
+const CTA_ITEMS: CtaItem[] = [
+  { label: BOOKING_CTA_LABEL, primary: true, href: BOOKING_URL },
+  { label: "Watch demos", primary: false, href: "/demos" },
+];
 
 function HeaderLink({
-  label,
-  targetId,
+  item,
+  isHome,
   onClick,
 }: {
-  label: string;
-  targetId: string;
+  item: NavItem;
+  isHome: boolean;
   onClick?: () => void;
 }) {
+  const className =
+    "text-sm font-medium text-brand-muted transition-colors hover:text-brand-accent";
+
+  // Explicit href items (e.g. /demos) — always a Link
+  if (item.href) {
+    return (
+      <Link href={item.href} className={className} onClick={onClick}>
+        {item.label}
+      </Link>
+    );
+  }
+
+  // Scroll-target items: if we're on the home page, scroll in place;
+  // otherwise navigate to /#section
+  if (isHome) {
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={() => {
+          if (item.id) scrollToId(item.id);
+          onClick?.();
+        }}
+      >
+        {item.label}
+      </button>
+    );
+  }
+
   return (
-    <button
-      type="button"
-      className="text-sm font-medium text-brand-muted transition-colors hover:text-brand-accent"
-      onClick={() => {
-        scrollToId(targetId);
-        onClick?.();
-      }}
-    >
-      {label}
-    </button>
+    <Link href={`/#${item.id}`} className={className} onClick={onClick}>
+      {item.label}
+    </Link>
   );
 }
 
 function HeaderCta({
-  label,
-  targetId,
-  href,
-  primary,
+  item,
   onClick,
 }: {
-  label: string;
-  targetId?: string;
-  href?: string;
-  primary: boolean;
+  item: CtaItem;
   onClick?: () => void;
 }) {
-  const className = primary
+  const className = item.primary
     ? "rounded-md bg-brand-accent px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-accentDark"
     : "rounded-md border border-brand-accent/20 px-4 py-2 text-sm font-semibold text-brand-accent transition-colors duration-200 hover:border-brand-accent/35 hover:bg-brand-accent/5";
 
-  if (href) {
+  if (item.href) {
+    const isExternal = item.href.startsWith("http");
     return (
       <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
+        href={item.href}
+        {...(isExternal ? { target: "_blank", rel: "noreferrer" } : {})}
         onClick={onClick}
         className={className}
       >
-        {label}
+        {item.label}
       </a>
     );
   }
@@ -76,20 +101,22 @@ function HeaderCta({
     <button
       type="button"
       onClick={() => {
-        if (targetId) {
-          scrollToId(targetId);
+        if (item.id) {
+          scrollToId(item.id);
         }
         onClick?.();
       }}
       className={className}
     >
-      {label}
+      {item.label}
     </button>
   );
 }
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -107,11 +134,7 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-black/[0.06] bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center"
-        >
+        <Link href="/" className="flex items-center">
           <Image
             src="/evios-logo-header.png?v=2"
             alt="Evios"
@@ -120,23 +143,17 @@ export function Header() {
             className="h-8 w-auto"
             priority
           />
-        </button>
+        </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV_ITEMS.map((item) => (
-            <HeaderLink key={item.id} label={item.label} targetId={item.id} />
+            <HeaderLink key={item.label} item={item} isHome={isHome} />
           ))}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
           {CTA_ITEMS.map((item) => (
-            <HeaderCta
-              key={item.label}
-              label={item.label}
-              targetId={item.id}
-              href={item.href}
-              primary={item.primary}
-            />
+            <HeaderCta key={item.label} item={item} />
           ))}
         </div>
 
@@ -168,9 +185,9 @@ export function Header() {
             <div className="flex flex-col gap-5">
               {NAV_ITEMS.map((item) => (
                 <HeaderLink
-                  key={item.id}
-                  label={item.label}
-                  targetId={item.id}
+                  key={item.label}
+                  item={item}
+                  isHome={isHome}
                   onClick={() => setMobileOpen(false)}
                 />
               ))}
@@ -179,10 +196,7 @@ export function Header() {
               {CTA_ITEMS.map((item) => (
                 <HeaderCta
                   key={item.label}
-                  label={item.label}
-                  targetId={item.id}
-                  href={item.href}
-                  primary={item.primary}
+                  item={item}
                   onClick={() => setMobileOpen(false)}
                 />
               ))}

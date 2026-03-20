@@ -26,7 +26,8 @@ type IframeProduct = {
   features: Feature[];
   iframeSrc: string;
   messageType: string;
-  iframeHeight: string;
+  nativeWidth: number;
+  nativeHeight: number;
   iframeTitle: string;
 };
 
@@ -128,7 +129,8 @@ const SHOWCASE_ITEMS: ShowcaseItem[] = [
     ],
     iframeSrc: "/demos/inventory-demo.html",
     messageType: "inventory-demo-control",
-    iframeHeight: "h-[480px] sm:h-[520px] md:h-[540px] lg:h-[540px]",
+    nativeWidth: 960,
+    nativeHeight: 700,
     iframeTitle: "Inventory management demo",
   },
   {
@@ -146,7 +148,8 @@ const SHOWCASE_ITEMS: ShowcaseItem[] = [
     ],
     iframeSrc: "/demos/rfp-demo.html",
     messageType: "rfp-demo-control",
-    iframeHeight: "h-[340px] sm:h-[450px] md:h-[580px] lg:h-[600px]",
+    nativeWidth: 920,
+    nativeHeight: 600,
     iframeTitle: "RFP pipeline demo",
   },
   {
@@ -273,6 +276,7 @@ export function ProductShowcase() {
   const rowRefs = useRef<Record<string, HTMLElement | null>>({});
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const iframeRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
+  const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const postIframeCommand = (itemId: string, messageType: string, action: DemoAction) => {
     iframeRefs.current[itemId]?.contentWindow?.postMessage(
@@ -358,6 +362,25 @@ export function ProductShowcase() {
     return () => observer.disconnect();
   }, []);
 
+  // Scale iframes to fit their container width
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target as HTMLElement;
+        const itemId = el.dataset.iframeId;
+        if (!itemId) return;
+        const item = IFRAME_ITEMS.find((i) => i.id === itemId);
+        if (!item) return;
+        const scale = Math.min(1, entry.contentRect.width / item.nativeWidth);
+        el.style.setProperty('--iframe-scale', String(scale));
+      });
+    });
+    Object.values(containerRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   // Pause video when scrolled out of view (no auto-play)
   useEffect(() => {
     SHOWCASE_ITEMS.forEach((item) => {
@@ -371,16 +394,21 @@ export function ProductShowcase() {
     });
   }, [inViewMap]);
 
-  // Pause iframes when scrolled out of view (no auto-play)
+  // Pause iframes only when they transition from visible → not-visible
+  const prevInViewRef = useRef<Record<string, boolean>>({});
   useEffect(() => {
     IFRAME_ITEMS.forEach((item) => {
       if (!iframeReady[item.id]) return;
+      const wasVisible = prevInViewRef.current[item.id];
+      const isVisible = inViewMap[item.id];
 
-      if (!inViewMap[item.id]) {
+      // Only send pause when item just left the viewport
+      if (wasVisible && !isVisible) {
         postIframeCommand(item.id, item.messageType, "pause");
         setIframePlaying((prev) => ({ ...prev, [item.id]: false }));
       }
     });
+    prevInViewRef.current = { ...inViewMap };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inViewMap, iframeReady]);
 
@@ -408,6 +436,7 @@ export function ProductShowcase() {
                 ref={(node) => {
                   rowRefs.current[item.id] = node;
                 }}
+                id={item.id}
                 data-showcase-id={item.id}
                 data-visible={isVisible ? "true" : "false"}
                 className="soft-fade-in rounded-3xl border border-black/[0.06] bg-white p-4 shadow-sm sm:p-5"
@@ -439,7 +468,15 @@ export function ProductShowcase() {
                       </div>
                     </div>
 
-                    <div className={`relative mx-auto w-full max-w-[1120px] overflow-hidden rounded-2xl ${item.iframeHeight}`}>
+                    <div
+                      ref={(el) => { containerRefs.current[item.id] = el; }}
+                      data-iframe-id={item.id}
+                      className="relative mx-auto w-full overflow-hidden rounded-2xl"
+                      style={{
+                        maxWidth: item.nativeWidth,
+                        aspectRatio: `${item.nativeWidth} / ${item.nativeHeight}`,
+                      }}
+                    >
                       <iframe
                         ref={(el) => {
                           iframeRefs.current[item.id] = el;
@@ -451,7 +488,17 @@ export function ProductShowcase() {
                         onLoad={() =>
                           setIframeReady((prev) => ({ ...prev, [item.id]: true }))
                         }
-                        className="absolute inset-0 h-full w-full border-0"
+                        width={item.nativeWidth}
+                        height={item.nativeHeight}
+                        className="origin-top-left border-0"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: item.nativeWidth,
+                          height: item.nativeHeight,
+                          transform: 'scale(var(--iframe-scale, 1))',
+                        }}
                       />
                     </div>
                   </div>

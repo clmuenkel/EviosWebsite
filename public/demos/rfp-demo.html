@@ -17,10 +17,7 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Inter',-apple-system,sans-serif;background:transparent;color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden;margin:0}
 
-  .demo-wrap{display:flex;align-items:center;justify-content:center;width:100%;min-height:100vh;padding:20px;--demo-scale:1;transform:scale(var(--demo-scale));transform-origin:top center}
-  @media(max-width:900px){.demo-wrap{--demo-scale:.72;padding:12px}}
-  @media(max-width:600px){.demo-wrap{--demo-scale:.55;padding:8px}}
-  @media(max-width:400px){.demo-wrap{--demo-scale:.45}}
+  .demo-wrap{display:flex;align-items:center;justify-content:center;width:100%;min-height:100vh;padding:20px}
 
   .laptop{width:880px;height:560px;border-radius:12px;border:2px solid #e2e8f0;background:var(--bg);overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.06);flex-shrink:0}
   .scr{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .4s;overflow:hidden}.scr.on{opacity:1;pointer-events:auto}
@@ -390,20 +387,20 @@ function pausePlayback(){
 }
 
 async function resumePlayback(){
+  isPausedByParent=false;
   try{
     await $('#audio').play();
-    isPausedByParent=false;
     hidePrompt();
-    return true;
   }catch(e){
-    showPrompt('Tap inside demo to enable audio');
-    return false;
+    // audio may fail due to autoplay policy — animation still resumes
   }
+  return true;
 }
 
-$('#pp').addEventListener('click',()=>{
-  if(!started){startLoop()}
-  else{resumePlayback()}
+$('#pp').addEventListener('click',async()=>{
+  if(!started){startLoop();return}
+  try{const a=$('#audio');await a.play();hidePrompt()}catch(e){}
+  if(isPausedByParent) resumePlayback();
 });
 
 window.addEventListener('message',(event)=>{
@@ -426,8 +423,8 @@ async function startLoop(){
   const runId=++activeRunId;
 
   resetDemo();
-  // audio is optional
-  // audio is optional
+  // Audio is optional — don't block the demo if autoplay is restricted
+  await playAudioFromStart();
 
   await run(runId);
 }

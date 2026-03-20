@@ -1,6 +1,5 @@
 "use client";
 
-import { scrollToId } from "../lib/scroll";
 import { BOOKING_CTA_LABEL, BOOKING_URL } from "../lib/booking";
 
 export function Hero() {
@@ -28,13 +27,12 @@ export function Hero() {
           >
             {BOOKING_CTA_LABEL}
           </a>
-          <button
-            type="button"
-            onClick={() => scrollToId("process")}
+          <a
+            href="/demos"
             className="hero-btn-secondary"
           >
-            See how it works
-          </button>
+            Watch our demos
+          </a>
         </div>
         <p className="hero-verticals">
           HVAC / Plumbing / Electrical / Roofing / Landscaping
