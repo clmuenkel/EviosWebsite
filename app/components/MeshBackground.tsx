@@ -217,8 +217,8 @@ class Particle {
     this.iconIdx = iconIdx;
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.08;
-    this.vy = (Math.random() - 0.5) * 0.08;
+    this.vx = (Math.random() - 0.5) * 0.03;
+    this.vy = (Math.random() - 0.5) * 0.03;
     this.radius = isIcon ? 3 : Math.random() * 2 + 1.5;
     this.baseAlpha = isIcon
       ? Math.random() * 0.1 + 0.12
@@ -244,9 +244,9 @@ class Particle {
     this.vy *= 0.995;
 
     const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-    if (speed < 0.06) {
-      this.vx += (Math.random() - 0.5) * 0.03;
-      this.vy += (Math.random() - 0.5) * 0.03;
+    if (speed < 0.02) {
+      this.vx += (Math.random() - 0.5) * 0.01;
+      this.vy += (Math.random() - 0.5) * 0.01;
     }
 
     this.x += this.vx;
@@ -299,7 +299,7 @@ class Pulse {
     this.fromIdx = fromIdx;
     this.toIdx = toIdx;
     this.progress = 0;
-    this.speed = 1.0 + Math.random() * 0.6;
+    this.speed = 0.4 + Math.random() * 0.3;
     this.alive = true;
   }
 
@@ -434,7 +434,7 @@ export function MeshBackground() {
       particles.filter((p) => !p.isIcon).forEach((p) => p.draw(ctx!));
       particles.filter((p) => p.isIcon).forEach((p) => p.draw(ctx!));
 
-      if (time - lastPulseTime > 800 + Math.random() * 600) {
+      if (time - lastPulseTime > 2000 + Math.random() * 1500) {
         if (conns.length > 0) {
           const c = conns[Math.floor(Math.random() * conns.length)];
           const dir = Math.random() > 0.5;
