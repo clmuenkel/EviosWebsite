@@ -8,7 +8,11 @@ export const metadata: Metadata = {
   description:
     "Done-for-you custom software and automation for home service contractors, integrated into your existing tools.",
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    apple: "/favicon.png",
   },
 };
 
@@ -19,6 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+      </head>
       <body suppressHydrationWarning>
         <MeshBackground />
         <Header />
