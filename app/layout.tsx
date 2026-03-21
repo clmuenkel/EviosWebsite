@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Evios",
   description:
     "Done-for-you custom software and automation for home service contractors, integrated into your existing tools.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
