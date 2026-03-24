@@ -7,7 +7,8 @@ const PARTICLE_COUNT = 75;
 const ICON_COUNT = 16;
 const CONNECTION_DIST = 155;
 const MOUSE_RADIUS = 140;
-const MOUSE_FORCE = 0.6;
+const MOUSE_FORCE = 0.15;
+const MAX_SPEED = 0.08;
 
 type RGB = { r: number; g: number; b: number };
 const BLUE: RGB = { r: 11, g: 83, b: 148 };
@@ -240,11 +241,14 @@ class Particle {
       this.vy += (dy / dist) * force;
     }
 
-    this.vx *= 0.995;
-    this.vy *= 0.995;
+    this.vx *= 0.98;
+    this.vy *= 0.98;
 
     const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-    if (speed < 0.02) {
+    if (speed > MAX_SPEED) {
+      this.vx = (this.vx / speed) * MAX_SPEED;
+      this.vy = (this.vy / speed) * MAX_SPEED;
+    } else if (speed < 0.02) {
       this.vx += (Math.random() - 0.5) * 0.01;
       this.vy += (Math.random() - 0.5) * 0.01;
     }
@@ -299,7 +303,7 @@ class Pulse {
     this.fromIdx = fromIdx;
     this.toIdx = toIdx;
     this.progress = 0;
-    this.speed = 0.4 + Math.random() * 0.3;
+    this.speed = 0.15 + Math.random() * 0.1;
     this.alive = true;
   }
 
@@ -412,6 +416,25 @@ export function MeshBackground() {
         }
       }
       return conns;
+    }
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      init();
+      ctx.clearRect(0, 0, W, H);
+      const conns = getConnections();
+      conns.forEach((c) => {
+        const opacity = (1 - c.dist / CONNECTION_DIST) * 0.06;
+        ctx.beginPath();
+        ctx.moveTo(particles[c.i].x, particles[c.i].y);
+        ctx.lineTo(particles[c.j].x, particles[c.j].y);
+        ctx.strokeStyle = `rgba(${BLUE.r},${BLUE.g},${BLUE.b},${opacity})`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      });
+      particles.filter((p) => !p.isIcon).forEach((p) => p.draw(ctx));
+      particles.filter((p) => p.isIcon).forEach((p) => p.draw(ctx));
+      return;
     }
 
     function drawFrame(time: number) {

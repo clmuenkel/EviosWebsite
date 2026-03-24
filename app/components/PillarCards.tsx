@@ -23,7 +23,7 @@ const PILLARS = [
     label: "Customer Growth",
     line: "The job wraps, the customer disappears. Your best revenue source sits untouched.",
     logos: ["CRM", "Google Calendar", "Jobber"],
-    demoHref: "/demos#quote",
+    demoHref: "/demos#rfp",
   },
 ] as const;
 
@@ -229,11 +229,13 @@ function runGrowthAnim(container: HTMLElement) {
 
 export function PillarCards() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const node = containerRef.current;
     if (!node) return;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
 
     function runAll() {
       if (!node) return;
@@ -252,13 +254,7 @@ export function PillarCards() {
       ([entry]) => {
         if (entry.isIntersecting) {
           runAll();
-          intervalRef.current = setInterval(runAll, 5500);
-        } else {
-          clearAllTimers();
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-          }
+          observer.disconnect();
         }
       },
       { threshold: 0.25 },
@@ -268,7 +264,6 @@ export function PillarCards() {
     return () => {
       observer.disconnect();
       clearAllTimers();
-      if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
 
@@ -276,10 +271,10 @@ export function PillarCards() {
     <section id="pillars" className="section-block section-divider">
       <div className="section-frame">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-brand-accent">
-          What we solve
+          What we build
         </p>
         <h2 className="section-heading text-center">
-          Three workflows. Three fixes.
+          If it slows you down, we can fix it.
         </h2>
 
         <style jsx global>{`
